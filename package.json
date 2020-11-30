@@ -1,0 +1,37 @@
+{
+  "name": "comment-to-doc",
+  "version": "1.0.0",
+  "description": "readme",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc",
+    "format": "prettier --write \"src/**/*.ts\" \"src/**/*.js\"",
+    "lint": "tslint -p tsconfig.json",
+    "test": "jest --config jestconfig.json"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AlexSapoznikov/comment-to-doc.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/AlexSapoznikov/comment-to-doc/issues"
+  },
+  "homepage": "https://github.com/AlexSapoznikov/comment-to-doc#readme",
+  "devDependencies": {
+    "@types/jest": "^26.0.15",
+    "husky": "^4.3.0",
+    "jest": "^26.6.3",
+    "prettier": "^2.2.1",
+    "ts-jest": "^26.4.4",
+    "tslint": "^6.1.3",
+    "tslint-config-prettier": "^1.18.0",
+    "typescript": "^4.1.2"
+  },
+  "dependencies": {
+    "glob": "^7.1.6",
+    "lodash.isequal": "^4.5.0"
+  }
+}
