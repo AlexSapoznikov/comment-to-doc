@@ -6,7 +6,8 @@
  * Content
  */
 
-test('Parser test', () => {
-  expect(true).toBe(true);
+describe('Parser tests', () => {
+  test('@Tag:alias {type} [extra,data] description', () => {
+    expect(true).toBe(true);
+  });
 });
-
