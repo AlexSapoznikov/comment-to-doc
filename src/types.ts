@@ -83,4 +83,4 @@ export type DocJSON = {
   data: ParsedComment[]
 };
 
-export type DocsJSON = Array<DocJSON>;
+export type DocsJSON = DocJSON[];

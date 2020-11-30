@@ -116,7 +116,7 @@ function commentRemoveSymbols (comment: string) {
  * @param tagComment
  */
 function extractTagData (tagComment: string) {
-  const spaceExists = string => string.indexOf(' ') >= 0;
+  const spaceExists = (string: string) => string.indexOf(' ') >= 0;
   let tag = tagComment;
   let alias = '';
   let type = '';

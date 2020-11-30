@@ -33,5 +33,10 @@
   "dependencies": {
     "glob": "^7.1.6",
     "lodash.isequal": "^4.5.0"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run lint && npm run test"
+    }
   }
 }
