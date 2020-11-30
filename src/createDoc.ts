@@ -1,10 +1,10 @@
 import { writeFile } from 'fs';
-import { promisify } from 'util';
-import path from 'path';
+import * as util from 'util';
+import * as path from 'path';
 import { validate } from './checkRules';
 import { Config, DocJSON, DocsJSON, ParsedComment, Tag, TagRender } from './types';
 
-const writeFile$ = promisify(writeFile);
+const writeFile$ = util.promisify(writeFile);
 
 // Default JSON to doc render function
 const defaultRender: TagRender = (tagData) => {

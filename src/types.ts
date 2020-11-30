@@ -1,9 +1,9 @@
 export type Config = {
   files: string | string[],
-  excludeFiles: string | string[],
+  excludeFiles?: string | string[],
   tags?: Tag[],
   output?: (dir: string, fileName: string) => string,
-  outputExt: string,
+  outputExt?: string,
   template?: Template,
 
   /**

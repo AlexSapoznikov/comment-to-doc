@@ -4,6 +4,7 @@
   "description": "readme",
   "main": "index.js",
   "scripts": {
+    "try": "tsc run.ts && node run.js",
     "build": "tsc",
     "format": "prettier --write \"src/**/*.ts\" \"src/**/*.js\"",
     "lint": "tslint -p tsconfig.json",
@@ -36,7 +37,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npm run lint && npm run test"
+
     }
   }
 }
