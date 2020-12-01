@@ -1,12 +1,12 @@
-import { readFile } from 'fs';
-import * as util from 'util';
-import glob from 'glob';
 import { flattenArr } from './utils';
 import { FileContent, GlobOpts } from './types';
+import { promisify } from 'util';
+import { readFile } from 'fs';
+import * as glob from 'glob';
 
 // Promisify some methods
-const getFilePaths = util.promisify(glob);
-const readFileAsync = util.promisify(readFile);
+const readFileAsync = promisify(readFile);
+const getFilePaths = promisify(glob);
 
 // Default glob options
 const globDefaultOptions = {

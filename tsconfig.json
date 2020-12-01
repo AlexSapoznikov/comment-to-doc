@@ -5,11 +5,10 @@
     "declaration": false,
     "experimentalDecorators": true,
     "lib": [
-      "dom",
-      "es2017"
+      "es5"
     ],
     "moduleResolution": "node",
-    "module": "esnext",
+    "module": "commonjs",
     "target": "es5",
     "noUnusedLocals": true,
     "noUnusedParameters": true,

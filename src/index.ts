@@ -11,7 +11,7 @@ const generateDocs = async (config: Config) => {
 
   // Get file contents
   const fileContents = await readFiles(filePaths as string[], {
-    ignore: excludeFilePaths as string[]
+    ignore: (excludeFilePaths as string[]).filter(exists => exists)
   });
 
   // Parse contents
