@@ -21,7 +21,7 @@ const generateDocs = async (config: Config) => {
   docsJSON = findChildTags(docsJSON, tags);
 
   // Generate docs
-  createDocs(docsJSON, tags, config);
+  return createDocs(docsJSON, tags, config);
 };
 
 export default generateDocs;

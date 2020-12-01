@@ -21,7 +21,7 @@ export const createDocs = (docsJSON: DocsJSON, tags: Tag[], config: Config) => {
   // console.log('docsJSON', JSON.stringify(docsJSON, null, 2));
   // console.log('tags', tags);
 
-  Promise.all(
+  return Promise.all(
     docsJSON.map(doc => writeToFile(doc, tags, config))
   );
 }
