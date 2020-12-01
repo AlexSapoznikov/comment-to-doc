@@ -1,5 +1,5 @@
 /**
- * Test run
+ * Manual test run
  */
 
 import { Config } from "./src/types";

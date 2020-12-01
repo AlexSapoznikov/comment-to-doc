@@ -55,7 +55,7 @@ var defaultRender = function (tagData) {
 var createDocs = function (docsJSON, tags, config) {
     // console.log('docsJSON', JSON.stringify(docsJSON, null, 2));
     // console.log('tags', tags);
-    Promise.all(docsJSON.map(function (doc) { return writeToFile(doc, tags, config); }));
+    return Promise.all(docsJSON.map(function (doc) { return writeToFile(doc, tags, config); }));
 };
 exports.createDocs = createDocs;
 function writeToFile(doc, tags, config) {

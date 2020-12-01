@@ -57,8 +57,7 @@ var generateDocs = function (config) { return __awaiter(void 0, void 0, void 0, 
                 // Find children tags
                 docsJSON = getChildren_1["default"](docsJSON, tags);
                 // Generate docs
-                createDoc_1.createDocs(docsJSON, tags, config);
-                return [2 /*return*/];
+                return [2 /*return*/, createDoc_1.createDocs(docsJSON, tags, config)];
         }
     });
 }); };

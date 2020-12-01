@@ -11,7 +11,7 @@ var __assign = (this && this.__assign) || function () {
     return __assign.apply(this, arguments);
 };
 exports.__esModule = true;
-exports.getDocsJSON = void 0;
+exports.parseComments = exports.parseContent = exports.getDocsJSON = void 0;
 var utils_1 = require("./utils");
 var getDocsJSON = function (fileContents) {
     return fileContents.map(function (fileContent) { return ({
@@ -44,6 +44,7 @@ function parseContent(content) {
     }
     return comments;
 }
+exports.parseContent = parseContent;
 /**
  * Parse comments
  * @param fileComments
@@ -53,20 +54,19 @@ function parseComments(fileComments) {
     fileComments = handleMultiTagsInSingeComment(fileComments);
     return fileComments.map(function (comment) {
         var _a;
-        var parsedCommentLines = comment
-            .split('\n')
+        var commentLines = comment.split('\n');
+        var contentSpacing = getSpacingAfterFirstCommentWithAsterisk(commentLines);
+        var parsedCommentLines = commentLines
             .map(function (commentLine, index) {
             var isTagComment = index === 0;
-            // Trim it
-            commentLine = commentLine.trim();
             // Remove symbols
             commentLine = commentRemoveSymbols(commentLine);
             // If first line, the it is a tag
             if (isTagComment) {
                 return extractTagData(commentLine);
             }
-            // Return comment line
-            return commentLine;
+            // Return comment line (trim by needed contentSpacing in order to keep indentation)
+            return commentLine.slice(contentSpacing || 0);
         })
             .filter(function (exists) { return exists; });
         // Tag data
@@ -76,6 +76,7 @@ function parseComments(fileComments) {
         return __assign(__assign({}, tagData), { content: underTagComment });
     });
 }
+exports.parseComments = parseComments;
 /**
  * Handle multi tags in same comment
  * @param fileComments
@@ -88,49 +89,60 @@ function handleMultiTagsInSingeComment(fileComments) {
         .filter(function (exists) { return !!exists.trim(); });
 }
 /**
+ * Get contents first line space between asterisk and text
+ * @param comments
+ */
+function getSpacingAfterFirstCommentWithAsterisk(comments) {
+    var _a, _b, _c;
+    var firstCommentWithAsterisk = comments.find(function (line) { var _a; return (_a = line === null || line === void 0 ? void 0 : line.trim()) === null || _a === void 0 ? void 0 : _a.startsWith('*'); });
+    var trimmedFirstCommentWithAsterisk = firstCommentWithAsterisk === null || firstCommentWithAsterisk === void 0 ? void 0 : firstCommentWithAsterisk.trim();
+    if (trimmedFirstCommentWithAsterisk) {
+        var spacing = (_c = (_b = (_a = trimmedFirstCommentWithAsterisk === null || trimmedFirstCommentWithAsterisk === void 0 ? void 0 : trimmedFirstCommentWithAsterisk.slice(1)) === null || _a === void 0 ? void 0 : _a.match(/^(\W+)/)) === null || _b === void 0 ? void 0 : _b[0]) === null || _c === void 0 ? void 0 : _c.length;
+        // /* content - exclude that one possible space between asterisk and content
+        return spacing || 0;
+    }
+    return 0;
+}
+/**
  * Remove symbols
  * @param comment
  */
 function commentRemoveSymbols(comment) {
     var removeSymbols = ['*', '@'];
-    var modifiedComment = removeSymbols.some(function (symbol) { return comment.startsWith(symbol); })
-        ? comment.slice(1)
+    var trimmedContent = comment === null || comment === void 0 ? void 0 : comment.trim();
+    return removeSymbols.some(function (symbol) { return trimmedContent.startsWith(symbol); })
+        ? trimmedContent.slice(1)
         : comment;
-    return modifiedComment === null || modifiedComment === void 0 ? void 0 : modifiedComment.trim();
 }
 /**
  * Extract tag, type, description
  * @param tagComment
  */
 function extractTagData(tagComment) {
-    var spaceExists = function (string) { return string.indexOf(' ') >= 0; };
     var tag = tagComment;
     var alias = '';
     var type = '';
     var description = '';
     var extras = [];
-    // If no type or description exist
-    if (spaceExists(tagComment)) {
-        // Comment chunk that lefts after each extract
-        var commentChunk = tagComment;
-        // Extract tag
-        var extractedTag = extractTag(commentChunk);
-        tag = extractedTag.tag;
-        alias = extractedTag.alias;
-        commentChunk = extractedTag.commentChunk;
-        // Extract type
-        var extractedType = extractType(commentChunk);
-        type = extractedType.type;
-        commentChunk = extractedType.commentChunk;
-        // Extract extras
-        var extractedExtras = extractExtras(commentChunk);
-        extras = extractedExtras.extras;
-        commentChunk = extractedExtras.commentChunk;
-        // Extract description
-        var extractedDescription = extractDescription(commentChunk);
-        description = extractedDescription.description;
-        commentChunk = extractedDescription.commentChunk;
-    }
+    // Comment chunk that lefts after each extract
+    var commentChunk = tagComment;
+    // Extract tag
+    var extractedTag = extractTag(commentChunk);
+    tag = extractedTag.tag;
+    alias = extractedTag.alias;
+    commentChunk = extractedTag.commentChunk;
+    // Extract type
+    var extractedType = extractType(commentChunk);
+    type = extractedType.type;
+    commentChunk = extractedType.commentChunk;
+    // Extract extras
+    var extractedExtras = extractExtras(commentChunk);
+    extras = extractedExtras.extras;
+    commentChunk = extractedExtras.commentChunk;
+    // Extract description
+    var extractedDescription = extractDescription(commentChunk);
+    description = extractedDescription.description;
+    commentChunk = extractedDescription.commentChunk;
     // Return extracted data
     return {
         tag: tag,
@@ -143,6 +155,7 @@ function extractTagData(tagComment) {
 function extractTag(commentChunk) {
     var _a;
     var tagEndIndex = commentChunk.indexOf(' ');
+    tagEndIndex = tagEndIndex < 0 ? commentChunk.length : tagEndIndex;
     var _b = (_a = commentChunk.slice(0, tagEndIndex)) === null || _a === void 0 ? void 0 : _a.split(':'), tag = _b[0], alias = _b[1];
     commentChunk = commentChunk.slice(tagEndIndex);
     return {

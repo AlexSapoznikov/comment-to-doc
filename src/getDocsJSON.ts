@@ -50,13 +50,12 @@ export function parseComments (fileComments: string[]): ParsedComment[] {
   fileComments = handleMultiTagsInSingeComment(fileComments);
 
   return fileComments.map(comment => {
-    const parsedCommentLines = comment
-      .split('\n')
+    const commentLines = comment.split('\n');
+    const contentSpacing = getSpacingAfterFirstCommentWithAsterisk(commentLines);
+
+    const parsedCommentLines = commentLines
       .map((commentLine, index) => {
         const isTagComment = index === 0;
-
-        // Trim it
-        commentLine = commentLine.trim();
 
         // Remove symbols
         commentLine = commentRemoveSymbols(commentLine)
@@ -66,8 +65,8 @@ export function parseComments (fileComments: string[]): ParsedComment[] {
           return extractTagData(commentLine)
         }
 
-        // Return comment line
-        return commentLine;
+        // Return comment line (trim by needed contentSpacing in order to keep indentation)
+        return commentLine.slice(contentSpacing || 0);
       })
       .filter(exists => exists);
 
@@ -98,17 +97,38 @@ function handleMultiTagsInSingeComment (fileComments: string[]) {
 }
 
 /**
+ * Get contents first line space between asterisk and text
+ * @param comments
+ */
+function getSpacingAfterFirstCommentWithAsterisk (comments: string[]) {
+  const firstCommentWithAsterisk = comments.find(line => line?.trim()?.startsWith('*'));
+  const trimmedFirstCommentWithAsterisk = firstCommentWithAsterisk?.trim();
+
+  if (trimmedFirstCommentWithAsterisk) {
+    const spacing = trimmedFirstCommentWithAsterisk
+      ?.slice(1)
+      ?.match(/^(\W+)/)
+      ?.[0]
+      ?.length;
+
+    // /* content - exclude that one possible space between asterisk and content
+    return spacing || 0;
+  }
+
+  return 0;
+}
+
+/**
  * Remove symbols
  * @param comment
  */
 function commentRemoveSymbols (comment: string) {
   const removeSymbols = ['*', '@'];
+  const trimmedContent = comment?.trim();
 
-  const modifiedComment = removeSymbols.some(symbol => comment.startsWith(symbol))
-    ? comment.slice(1)
+  return removeSymbols.some(symbol => trimmedContent.startsWith(symbol))
+    ? trimmedContent.slice(1)
     : comment;
-
-  return modifiedComment?.trim();
 }
 
 /**

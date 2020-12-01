@@ -58,9 +58,9 @@ const testCases = [
   },
   {
     in: `
-      /** @Tag:alias {type} [extra,data] description
-      Content
-      */
+/** @Tag:alias {type} [extra,data] description
+Content
+*/
     `,
     out: [{
       "tag": "Tag",
@@ -158,8 +158,7 @@ const testCases = [
 describe('Parse tests for different comment styles', () => {
   testCases.forEach(testCase => {
     it (testCase.in, () => {
-      const parsed = testParser(testCase.in);
-      console.log(JSON.stringify(parsed, null, 2))
+      const parsed = testParser(testCase.in?.trim());
       expect(parsed).toMatchObject(testCase.out);
     });
   });

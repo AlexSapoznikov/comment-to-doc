@@ -1,6 +1,6 @@
 "use strict";
 /**
- * Test run
+ * Manual test run
  */
 exports.__esModule = true;
 var defaultConfig_1 = require("./src/defaultConfig");

@@ -117,7 +117,6 @@ describe('Full structure parse tests', () => {
   testCases.forEach(testCase => {
     it (testCase.in, () => {
       const [parsed] = testParser(testCase.in);
-      console.log(JSON.stringify(parsed, null, 2))
       expect(parsed).toMatchObject(testCase.out);
     });
   });

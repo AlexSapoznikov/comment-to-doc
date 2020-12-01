@@ -25,3 +25,13 @@ export function findLast<T>(array: T[], predicate: (value: T, index?: number, ob
   }
   return null;
 }
+
+/**
+ * Convert array of strings into doc
+ * @param array
+ */
+export const arrToDoc = (...array: string[]): string => (
+  array
+    ?.filter(exists => exists || exists === '')
+    ?.join('\n')
+);
