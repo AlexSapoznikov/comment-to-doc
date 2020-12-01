@@ -72,34 +72,23 @@ In order to use, include it like this:
 testtest
 ```
 
-## Data1
+### My custom
 
-## Data2
-
-## Data3
-
-## Data4
-data4 content
+### My custom 2
+custom *text* for my ~~custom~~ content**
 
 ## Description
+my description
 
-## Table
+## Description
+my description
+more description if I want
 
-## Table
+Created at
+2020-12-01 15:23:55
 
-## Table
-
-## Example
-test>test</test>
-
-## Example2
-my content
-
-## Prop
-some text
-
-## Prop
-
-## Prop
-
-## Prop
+##my table name
+header1 | header2 | header3
+--------------------------------- | --------------------------------- | ---------------------------------
+First row Content for first cell | First row Content for second cell | Short
+Second row Content for first cell | Second row Content for second cell | Short

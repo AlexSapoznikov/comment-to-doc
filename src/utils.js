@@ -39,6 +39,6 @@ var arrToDoc = function () {
     for (var _i = 0; _i < arguments.length; _i++) {
         array[_i] = arguments[_i];
     }
-    return ((_a = array === null || array === void 0 ? void 0 : array.filter(function (exists) { return exists || exists == ''; })) === null || _a === void 0 ? void 0 : _a.join('\n'));
+    return ((_a = array === null || array === void 0 ? void 0 : array.filter(function (exists) { return exists || exists === ''; })) === null || _a === void 0 ? void 0 : _a.join('\n'));
 };
 exports.arrToDoc = arrToDoc;

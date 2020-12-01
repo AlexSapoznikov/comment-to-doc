@@ -63,92 +63,56 @@
  */
 
 /**
- * @Data1 data1 description
+ * @Custom ### My custom
  *
- * @Data2 [d1,d2,d3] data2 description
- *
- * @Data3 {type} [d1,d2,d3] data3 description
- * @Data4 {type} [d1,d2,d3] data4 description
- * data4 content
+ * @Custom ### My custom 2
+ * **custom *text* for my ~~custom~~ content**
  */
 
 /**
  * @Description my description
- */
-
-/**
- * @Table [header1, header2, header3]
- */
-
-/**
- * @Column {col-type} [header1] Column1
- * Content1
- */
-
-/**
- * @Column {col-type} [header2] Column2
- * Content2
- */
-
-/**
- * @Subcol subcol
- */
-
-/**
- * @Subcol2 subcol2
- */
-
-/**
- * @Column {col-type} [header3] Column3
- * Content3
- */
-
-/**
- * @Subcol subcol123
- */
-
-/**
- * @Table:alias table111
- */
-
-/**
- * @Table table111
- */
-
-/**
- * @Column:alias {col-type} [header2] Column2
- * Content2
- */
-
-/**
- * @Subcol:alias subcol123
- */
-
-/**
- * @Example
- * <test>test</test>
  *
- * @Example2 my comment
- * my content
+ * @Description my description
+ * more description if I want
  */
 
 /**
- * Initialized
- * @Prop {Client}
- * some text
+ * @Date Created at
+ */
+
+
+
+
+/**
+ * @Table [header1, header2, header3] ##my table name
  */
 
 /**
- * Table configuration object
- * @Prop {TransferField[]} fields configuration
+ * @Column [header1] First row
+ * Content for first cell
  */
 
 /**
- * Table global search configuration object
- * @Prop { TransferField[] } fields configuration
+ * @Column [header2] First row
+ * Content for second cell
  */
 
 /**
- * Event that happens when clicking on table row
- * @Prop
+ * @Column [header3]
+ * Short
+ */
+
+/**
+ * @Column [header1] Second row
+ * Content for first cell
+ */
+
+/**
+ * @Column [header2] Second row
+ * Content for second cell
+ */
+
+/**
+ * @Column [header3]
+ * Short
  */
