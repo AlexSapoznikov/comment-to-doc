@@ -10,7 +10,7 @@ export const getDocsJSON = (fileContents: FileContent[]): DocsJSON => {
   }));
 };
 
-function parseContent (content: string) {
+export function parseContent (content: string) {
   let currentContentPart = content;
   let tagIndex = 0;
 
@@ -45,7 +45,7 @@ function parseContent (content: string) {
  * Parse comments
  * @param fileComments
  */
-function parseComments (fileComments: string[]): ParsedComment[] {
+export function parseComments (fileComments: string[]): ParsedComment[] {
   // Handle multiple tags inside single comment
   fileComments = handleMultiTagsInSingeComment(fileComments);
 
@@ -116,39 +116,35 @@ function commentRemoveSymbols (comment: string) {
  * @param tagComment
  */
 function extractTagData (tagComment: string) {
-  const spaceExists = (string: string) => string.indexOf(' ') >= 0;
   let tag = tagComment;
   let alias = '';
   let type = '';
   let description = '';
   let extras = [];
 
-  // If no type or description exist
-  if (spaceExists(tagComment)) {
-    // Comment chunk that lefts after each extract
-    let commentChunk = tagComment;
+  // Comment chunk that lefts after each extract
+  let commentChunk = tagComment;
 
-    // Extract tag
-    const extractedTag = extractTag(commentChunk);
-    tag = extractedTag.tag;
-    alias = extractedTag.alias;
-    commentChunk = extractedTag.commentChunk;
+  // Extract tag
+  const extractedTag = extractTag(commentChunk);
+  tag = extractedTag.tag;
+  alias = extractedTag.alias;
+  commentChunk = extractedTag.commentChunk;
 
-    // Extract type
-    const extractedType = extractType(commentChunk);
-    type = extractedType.type;
-    commentChunk = extractedType.commentChunk;
+  // Extract type
+  const extractedType = extractType(commentChunk);
+  type = extractedType.type;
+  commentChunk = extractedType.commentChunk;
 
-    // Extract extras
-    const extractedExtras = extractExtras(commentChunk);
-    extras = extractedExtras.extras;
-    commentChunk = extractedExtras.commentChunk;
+  // Extract extras
+  const extractedExtras = extractExtras(commentChunk);
+  extras = extractedExtras.extras;
+  commentChunk = extractedExtras.commentChunk;
 
-    // Extract description
-    const extractedDescription = extractDescription(commentChunk);
-    description = extractedDescription.description;
-    commentChunk = extractedDescription.commentChunk;
-  }
+  // Extract description
+  const extractedDescription = extractDescription(commentChunk);
+  description = extractedDescription.description;
+  commentChunk = extractedDescription.commentChunk;
 
   // Return extracted data
   return {
@@ -161,7 +157,9 @@ function extractTagData (tagComment: string) {
 }
 
 function extractTag (commentChunk: string) {
-  const tagEndIndex = commentChunk.indexOf(' ');
+  let tagEndIndex = commentChunk.indexOf(' ');
+  tagEndIndex = tagEndIndex < 0 ? commentChunk.length : tagEndIndex;
+
   const [tag, alias] = commentChunk.slice(0, tagEndIndex)?.split(':');
   commentChunk = commentChunk.slice(tagEndIndex);
 

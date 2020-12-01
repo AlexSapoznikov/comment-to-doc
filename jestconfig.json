@@ -4,6 +4,5 @@
   },
   "testRegex": "(/tests/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$",
   "moduleFileExtensions": ["ts", "tsx", "js", "jsx", "json", "node"],
-  "modulePathIgnorePatterns": ["test-files"],
-  "automock": true
+  "modulePathIgnorePatterns": ["test-files", "utils"]
 }
