@@ -5,6 +5,16 @@ import { Config, Tag } from "./types";
 import findChildTags, { parseChildren } from "./getChildren";
 
 /**
+ * Export types
+ */
+export * from "./types";
+
+/**
+ * Export default config
+ */
+export { defaultTags } from './defaultConfig';
+
+/**
  * Comment parser.
  * Pass defaultTags in tags if default children need to be parsed.
  *

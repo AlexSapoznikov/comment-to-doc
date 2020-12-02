@@ -19,14 +19,13 @@ npm install --save-dev comment-to-doc
 ## Usage
 The fastest way to get started with default configuration is like this:
 ```
-import { defaultTags } from "./src/defaultConfig";
-import generateDocs, { defaultTags, Config } from "comment-to-doc";
+import generateDocs, { Config, defaultTags } from "comment-to-doc";
 
-const config: Config = {
+const runConfig: Config = {
   files: [
     './src/**/*.tsx',
   ],
-  tags: defaultTags
+  tags: defaultTags,
 };
 
 generateDocs(runConfig);
