@@ -6,7 +6,7 @@
  * Content
  */
 
-import { parser } from "../src";
+import { commentParser } from "../src";
 
 const fullStructureOut = {
   "tag": "Tag",
@@ -116,7 +116,7 @@ const testCases = [
 describe('Full structure parse tests', () => {
   testCases.forEach(testCase => {
     it (testCase.in, () => {
-      const [parsed] = parser(testCase.in);
+      const [parsed] = commentParser(testCase.in);
       expect(parsed).toMatchObject(testCase.out);
     });
   });

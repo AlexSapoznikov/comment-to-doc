@@ -13,11 +13,11 @@ type TagsMap = {
 const findChildTags = (docsJSON: DocsJSON, tags: Tag[]): DocsJSON => {
   return docsJSON.map(docJSON => ({
     ...docJSON,
-    data: handleChildren(docJSON.data, tags)
+    data: parseChildren(docJSON.data, tags)
   }));
 };
 
-function handleChildren (tagData: ParsedComment[], tags: Tag[]): ParsedComment[] {
+export function parseChildren (tagData: ParsedComment[], tags: Tag[]): ParsedComment[] {
   const tagsMap = createTagsMap(tags);
 
   return moveChildrenToParents(tagData, tagsMap);

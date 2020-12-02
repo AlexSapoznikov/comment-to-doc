@@ -2,7 +2,7 @@
  * Testing parsing different comment styles
  */
 
-import { parser } from "../src";
+import { commentParser } from "../src";
 
 const testCases = [
   {
@@ -158,7 +158,7 @@ Content
 describe('Parse tests for different comment styles', () => {
   testCases.forEach(testCase => {
     it (testCase.in, () => {
-      const parsed = parser(testCase.in?.trim());
+      const parsed = commentParser(testCase.in?.trim());
       expect(parsed).toMatchObject(testCase.out);
     });
   });

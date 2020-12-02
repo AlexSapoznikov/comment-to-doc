@@ -1,9 +1,25 @@
 import { readFiles } from './readFiles';
-import { getDocsJSON } from "./getDocsJSON";
+import { getDocsJSON, parser } from "./getDocsJSON";
 import { createDocs } from './createDoc';
-import { Config } from './types';
-import findChildTags from './getChildren';
+import { Config, Tag } from "./types";
+import findChildTags, { parseChildren } from "./getChildren";
 
+/**
+ * Comment parser.
+ * Pass defaultTags in tags if default children need to be parsed.
+ *
+ * @param comments
+ * @param tags
+ */
+export const commentParser = (comments: string, tags: Tag[] = []) => {
+  const parsed = parser(comments);
+  return parseChildren(parsed, tags);
+}
+
+/**
+ * Documentation generator
+ * @param config
+ */
 const generateDocs = async (config: Config) => {
   const tags = config?.tags || [];
   const filePaths = config?.files && Array.isArray(config.files) ? config.files : [config.files];
@@ -25,5 +41,3 @@ const generateDocs = async (config: Config) => {
 };
 
 export default generateDocs;
-
-export { parser } from "./getDocsJSON";
