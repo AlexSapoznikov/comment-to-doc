@@ -11,4 +11,14 @@ Some of them created HTML documentation webpages, others generated undesired mar
 I wanted specifically to create `.md` files for each file that I had documented.
 This module is though able to generate files with any extension and output defined by user.  
 
-## More coming
+## Install
+```
+npm install --save-dev comment-to-doc
+```
+
+## Usage
+```
+import { Config } from "./src/types";
+import { defaultTags } from "./src/defaultConfig";
+import generateDocs from "./src";
+```
