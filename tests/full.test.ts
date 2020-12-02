@@ -6,9 +6,7 @@
  * Content
  */
 
-import { Config } from "../src/types";
-import { defaultTags } from "../src/defaultConfig";
-import generateDocs from "../src";
+import generateDocs, { defaultTags, Config } from "../src";
 import * as fs from 'fs';
 
 const output = './tests/test-files/read-testfile.md';

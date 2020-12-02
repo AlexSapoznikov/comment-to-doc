@@ -2,8 +2,7 @@
  * Testing parsing different comment styles
  */
 
-import { commentParser } from "../src";
-import { defaultTags } from "../src/defaultConfig";
+import { commentParser, defaultTags } from "../src";
 
 const content = `
 /**

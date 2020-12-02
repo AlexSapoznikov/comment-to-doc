@@ -59,7 +59,7 @@ __exportStar(require("./types"), exports);
  * Export default config
  */
 var defaultConfig_1 = require("./defaultConfig");
-__createBinding(exports, defaultConfig_1, "defaultTags");
+__createBinding(exports, defaultConfig_1, "default", "defaultTags");
 /**
  * Comment parser.
  * Pass defaultTags in tags if default children need to be parsed.

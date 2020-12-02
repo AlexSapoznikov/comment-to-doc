@@ -12,7 +12,7 @@ export * from "./types";
 /**
  * Export default config
  */
-export { defaultTags } from './defaultConfig';
+export { default as defaultTags } from './defaultConfig';
 
 /**
  * Comment parser.

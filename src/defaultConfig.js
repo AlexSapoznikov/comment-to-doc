@@ -10,9 +10,8 @@ var __spreadArrays = (this && this.__spreadArrays) || function () {
     return r;
 };
 exports.__esModule = true;
-exports.defaultTags = void 0;
 var utils_1 = require("./utils");
-exports.defaultTags = [
+var defaultTags = [
     {
         tag: "Title",
         render: function (tagData) {
@@ -205,3 +204,4 @@ function getName(tag) {
     var _a, _b;
     return ((_b = (_a = [tag === null || tag === void 0 ? void 0 : tag.description, tag === null || tag === void 0 ? void 0 : tag.content]) === null || _a === void 0 ? void 0 : _a.filter(function (exists) { return exists; })) === null || _b === void 0 ? void 0 : _b.join(' ')) || '';
 }
+exports["default"] = defaultTags;

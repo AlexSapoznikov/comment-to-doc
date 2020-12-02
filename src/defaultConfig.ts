@@ -5,7 +5,7 @@
 import { Tag } from "./types";
 import { arrToDoc } from "./utils";
 
-export const defaultTags: Tag[] = [
+const defaultTags: Tag[] = [
   {
     tag: "Title",
     render: tagData => {
@@ -296,3 +296,5 @@ function getName (tag) {
     ?.filter(exists => exists)
     ?.join(' ') || ''
 }
+
+export default defaultTags;
