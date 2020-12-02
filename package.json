@@ -1,12 +1,11 @@
 {
   "name": "comment-to-doc",
   "version": "1.0.0",
-  "description": "readme",
+  "description": "Module for parsing and converting code comments into documentation",
   "main": "index.js",
   "scripts": {
     "try": "tsc run.ts && node run.js",
     "build": "rm -fr lib && tsc",
-    "format": "prettier --write \"src/**/*.ts\" \"src/**/*.js\"",
     "lint": "tslint -p tsconfig.json",
     "test": "jest --config jestconfig.json"
   },
@@ -14,9 +13,11 @@
     "type": "git",
     "url": "git+https://github.com/AlexSapoznikov/comment-to-doc.git"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "engines": {
+    "node": ">=10"
+  },
+  "author": "https://github.com/AlexSapoznikov",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/AlexSapoznikov/comment-to-doc/issues"
   },
@@ -40,5 +41,26 @@
     "hooks": {
       "pre-commit": "npm run lint && npm run test"
     }
-  }
+  },
+  "keywords": [
+    "comment-to-doc",
+    "comment to doc",
+    "comment to documentation",
+    "comment parser",
+    "javascript comment parse",
+    "javascript comment converter",
+    "javascript comments",
+    "comments",
+    "parser",
+    "converter",
+    "jsdoc",
+    "tsdoc",
+    "doc generator",
+    "documentation generator",
+    "document generator",
+    "generator",
+    "comment document generate",
+    "comment document generator",
+    "generate document from comments"
+  ]
 }
