@@ -1,6 +1,6 @@
 {
   "name": "comment-to-doc",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Module for parsing and converting code comments into documentation",
   "main": "index.js",
   "scripts": {
@@ -16,7 +16,9 @@
   "engines": {
     "node": ">=10"
   },
-  "files": ["lib/**/*"],
+  "files": [
+    "lib/**/*"
+  ],
   "author": "https://github.com/AlexSapoznikov",
   "license": "MIT",
   "bugs": {
