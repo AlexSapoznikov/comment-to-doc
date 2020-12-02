@@ -3,7 +3,7 @@
  * npm run test -- 'debug'
  */
 
-import { testParser } from "./utils/parser";
+import { parser } from "../src";
 
 const testCases = [
   {
@@ -26,7 +26,7 @@ const testCases = [
 describe('Debug', () => {
   testCases.forEach(testCase => {
     it (testCase.in, () => {
-      const [parsed] = testParser(testCase.in);
+      const [parsed] = parser(testCase.in);
       expect(parsed).toMatchObject(testCase.out);
     });
   });

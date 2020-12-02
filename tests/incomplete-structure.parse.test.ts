@@ -6,7 +6,7 @@
  * Content
  */
 
-import { testParser } from "./utils/parser";
+import { parser } from "../src";
 
 const combinations = {
   'tag': [
@@ -90,7 +90,7 @@ combinations.tag.forEach(tag => {
 describe('Incomplete structure parser tests', () => {
   testCases.forEach(testCase => {
     it (testCase.in, () => {
-      const [parsed] = testParser(testCase.in);
+      const [parsed] = parser(testCase.in);
       expect(parsed).toMatchObject(testCase.out);
     });
   });

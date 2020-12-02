@@ -1,5 +1,5 @@
 import { readFiles } from './readFiles';
-import { getDocsJSON } from './getDocsJSON';
+import { getDocsJSON } from "./getDocsJSON";
 import { createDocs } from './createDoc';
 import { Config } from './types';
 import findChildTags from './getChildren';
@@ -25,3 +25,5 @@ const generateDocs = async (config: Config) => {
 };
 
 export default generateDocs;
+
+export { parser } from "./getDocsJSON";

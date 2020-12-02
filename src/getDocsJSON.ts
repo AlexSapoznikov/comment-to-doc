@@ -4,13 +4,18 @@ import { DocsJSON, ExtractedTagData, FileContent, ParsedComment } from './types'
 export const getDocsJSON = (fileContents: FileContent[]): DocsJSON => {
   return fileContents.map(fileContent => ({
     path: fileContent.path,
-    data: parseComments(
-      parseContent(fileContent.content)
-    )
+    data: parser(fileContent.content)
   }));
 };
 
-export function parseContent (content: string) {
+// Comment parser
+export function parser(content: string): ParsedComment[] {
+  return parseComments(
+    parseContent(content)
+  );
+}
+
+function parseContent (content: string) {
   let currentContentPart = content;
   let tagIndex = 0;
 
@@ -45,7 +50,7 @@ export function parseContent (content: string) {
  * Parse comments
  * @param fileComments
  */
-export function parseComments (fileComments: string[]): ParsedComment[] {
+function parseComments (fileComments: string[]): ParsedComment[] {
   // Handle multiple tags inside single comment
   fileComments = handleMultiTagsInSingeComment(fileComments);
 
