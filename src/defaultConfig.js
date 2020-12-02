@@ -2,6 +2,13 @@
 /**
  * Default defined tags
  */
+var __spreadArrays = (this && this.__spreadArrays) || function () {
+    for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
+    for (var r = Array(s), k = 0, i = 0; i < il; i++)
+        for (var a = arguments[i], j = 0, jl = a.length; j < jl; j++, k++)
+            r[k] = a[j];
+    return r;
+};
 exports.__esModule = true;
 exports.defaultTags = void 0;
 var utils_1 = require("./utils");
@@ -99,53 +106,68 @@ exports.defaultTags = [
             }
         ],
         render: function (tagData) {
-            var _a, _b, _c, _d;
             console.log(tagData);
-            // Table name
-            var tableName = [tagData.description, tagData.content]
-                .filter(function (exists) { return exists; })
-                .join(' ') || '';
-            var getColumnContent = function (column) {
+            var getContent = function (tag) {
                 var _a, _b;
-                return ((_b = (_a = [column.description, column.content]) === null || _a === void 0 ? void 0 : _a.filter(function (exists) { return exists; })) === null || _b === void 0 ? void 0 : _b.join(' ')) || ' ';
+                var value = ((_b = (_a = [tag.description, tag.content]) === null || _a === void 0 ? void 0 : _a.filter(function (exists) { return exists; })) === null || _b === void 0 ? void 0 : _b.join(' ')) || '';
+                var valueWithNewLines = value.split("\n").join('<br>');
+                return valueWithNewLines.includes('<br>')
+                    ? "<pre style=\"margin: 0\">" + valueWithNewLines + "</pre>"
+                    : valueWithNewLines;
             };
-            // Row separator
-            var createSeparator = function (columnIndex) {
-                var _a;
-                var header = tagData.extras[columnIndex];
-                var children = tagData === null || tagData === void 0 ? void 0 : tagData.children.filter(function (_, childIndex) {
-                    var _a, _b;
-                    console.log(childIndex, (childIndex % ((_a = tagData.extras) === null || _a === void 0 ? void 0 : _a.length)), getColumnContent(_));
-                    return (childIndex === (childIndex % ((_b = tagData.extras) === null || _b === void 0 ? void 0 : _b.length)));
+            var toLength = function (string, length) {
+                var _a, _b;
+                var spacers = (_b = (_a = Array(length)) === null || _a === void 0 ? void 0 : _a.fill(' ')) === null || _b === void 0 ? void 0 : _b.join('');
+                return (string + spacers).slice(0, string.length < length ? length : string.length);
+            };
+            // Table name
+            var tableName = getContent(tagData);
+            var headers = tagData.extras;
+            var columns = headers.map(function (header) { return [header]; }); // [[header1], [header2], [header3], ...]
+            var cells = tagData.children;
+            var table = '';
+            // Find columns - [[header1, col1, ...], [header2, col2, ...], [header3, col3, ...], ...]
+            cells === null || cells === void 0 ? void 0 : cells.forEach(function (cell) {
+                if (cell.tag === 'Column') {
+                    var foundColumn = columns.find(function (header) { var _a; return (header === null || header === void 0 ? void 0 : header[0]) === ((_a = cell.extras) === null || _a === void 0 ? void 0 : _a[0]); });
+                    foundColumn.push(getContent(cell));
+                }
+            });
+            // Fill missing cells with "-"
+            headers.forEach(function (_, columnIndex) {
+                columns.forEach(function (_, rowIndex) {
+                    columns[rowIndex][columnIndex] = columns[rowIndex][columnIndex] || '-';
                 });
-                console.log('children', children);
-                var longestChild = (_a = children === null || children === void 0 ? void 0 : children.sort(function (a, b) { return getColumnContent(b).length - getColumnContent(a).length; })) === null || _a === void 0 ? void 0 : _a[0];
-                var longestValue = header.length >= getColumnContent(longestChild).length
-                    ? header
-                    : getColumnContent(longestChild);
-                return longestValue.replace(/./gim, '-');
-            };
-            // Columns
-            var columns = (_a = tagData.children) === null || _a === void 0 ? void 0 : _a.reduce(function (all, _, columnIndex) {
-                var _a, _b, _c, _d;
-                var scope = (_a = tagData.children) === null || _a === void 0 ? void 0 : _a.slice(columnIndex, (_b = tagData.children) === null || _b === void 0 ? void 0 : _b.length);
-                var foundChild = scope
-                    .find(function (child) { var _a, _b; return child.tag === 'Column' && ((_a = child.extras) === null || _a === void 0 ? void 0 : _a[0]) === tagData.extras[columnIndex % ((_b = tagData.extras) === null || _b === void 0 ? void 0 : _b.length)]; });
-                var foundChildContent = getColumnContent(foundChild);
-                // Add column
-                all = all + foundChildContent;
-                if (columnIndex % ((_c = tagData.extras) === null || _c === void 0 ? void 0 : _c.length) < ((_d = tagData.extras) === null || _d === void 0 ? void 0 : _d.length) - 1) {
-                    // Add column wall
-                    all = all + ' | ';
+            });
+            // Make all cols same length
+            headers.forEach(function (_, columnIndex) {
+                var _a, _b;
+                var longestInCol = (_b = (_a = __spreadArrays(columns[columnIndex])) === null || _a === void 0 ? void 0 : _a.sort(function (a, b) { return b.length - a.length; })) === null || _b === void 0 ? void 0 : _b[0];
+                var length = longestInCol === null || longestInCol === void 0 ? void 0 : longestInCol.length;
+                columns[columnIndex].forEach(function (_, cellIndex) {
+                    var value = columns[columnIndex][cellIndex];
+                    columns[columnIndex][cellIndex] = toLength(value, length);
+                });
+            });
+            // Create table
+            headers.forEach(function (_, columnIndex) {
+                columns.forEach(function (_, rowIndex) {
+                    var value = columns[rowIndex][columnIndex] || '-';
+                    table += (value + ' | ');
+                });
+                // Next row
+                table += '\n';
+                // Add horizontal separator under headers
+                if (columnIndex === 0) {
+                    headers.forEach(function (_, headerIndex) {
+                        var _a;
+                        var colSeparator = Array((_a = columns === null || columns === void 0 ? void 0 : columns[headerIndex]) === null || _a === void 0 ? void 0 : _a[columnIndex].length).fill('-').join('');
+                        table += colSeparator + ' | ';
+                    });
+                    table += '\n';
                 }
-                else {
-                    // One row full, add separator
-                    all = all + '\n';
-                }
-                return all;
-            }, '');
-            createSeparator(0);
-            return utils_1.arrToDoc(tableName, (_b = tagData.extras) === null || _b === void 0 ? void 0 : _b.join(' | '), (_d = (_c = tagData.extras) === null || _c === void 0 ? void 0 : _c.map(function (_, i) { return createSeparator(i); })) === null || _d === void 0 ? void 0 : _d.join(' | '), columns);
+            });
+            return utils_1.arrToDoc(tableName, table, '');
         }
     }
 ];

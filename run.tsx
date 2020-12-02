@@ -109,10 +109,11 @@
 
 /**
  * @Column [header2] Second row
- * Content for second cell
+ * Content for second cell which is a bit longer
  */
 
 /**
  * @Column [header3]
  * Short
  */
+

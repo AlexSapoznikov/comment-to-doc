@@ -172,59 +172,83 @@ export const defaultTags: Tag[] = [
     render: tagData => {
       console.log(tagData);
 
-      // Table name
-      const tableName = [tagData.description, tagData.content]
-        .filter(exists => exists)
-        .join(' ') || '';
-
-      const getColumnContent = (column) => {
-        return [column.description, column.content]
+      const getContent = (tag) => {
+        const value = [tag.description, tag.content]
           ?.filter(exists => exists)
-          ?.join(' ') || ' '
+          ?.join(' ') || ''
+
+        const valueWithNewLines = value.split(`\n`).join('<br>');
+        return valueWithNewLines.includes('<br>')
+          ? `<pre style="margin: 0">${valueWithNewLines}</pre>`
+          : valueWithNewLines;
       }
 
-      // Row separator
-      const createSeparator = (columnIndex) => {
-        const header = tagData.extras[columnIndex];
-        const children = tagData?.children.filter((_, childIndex) => (
-          childIndex === (childIndex % tagData.extras?.length)
-        ));
-        const longestChild = children?.sort((a, b) => getColumnContent(b).length - getColumnContent(a).length)?.[0];
-
-        const longestValue = header.length >= getColumnContent(longestChild).length
-          ? header
-          : getColumnContent(longestChild);
-
-        return longestValue.replace(/./gim, '-');
+      const toLength = (string, length) => {
+        const spacers = Array(length)?.fill(' ')?.join('');
+        return (string + spacers).slice(0, string.length < length ? length : string.length);
       };
 
-      // Columns
-      const columns = tagData.children?.reduce((all, _, columnIndex) => {
-        const scope = tagData.children?.slice(columnIndex, tagData.children?.length);
-        const foundChild = scope
-          .find(child => child.tag === 'Column' && child.extras?.[0] === tagData.extras[columnIndex % tagData.extras?.length])
+      // Table name
+      const tableName = getContent(tagData);
+      const headers = tagData.extras;
+      const columns = headers.map(header => [header]); // [[header1], [header2], [header3], ...]
+      const cells = tagData.children;
+      let table = '';
 
-        const foundChildContent = getColumnContent(foundChild);
-
-        // Add column
-        all = all + foundChildContent;
-
-        if (columnIndex % tagData.extras?.length < tagData.extras?.length - 1) {
-          // Add column wall
-          all = all + ' | ';
-        } else {
-          // One row full, add separator
-          all = all + '\n';
+      // Find columns - [[header1, col1, ...], [header2, col2, ...], [header3, col3, ...], ...]
+      cells?.forEach(cell => {
+        if (cell.tag === 'Column') {
+          const foundColumn = columns.find(header => header?.[0] === cell.extras?.[0]);
+          foundColumn.push(
+            getContent(cell)
+          );
         }
+      });
 
-        return all;
-      }, '');
+      // Fill missing cells with "-"
+      headers.forEach((_, columnIndex) => {
+        columns.forEach((_, rowIndex) => {
+          columns[rowIndex][columnIndex] = columns[rowIndex][columnIndex] || '-';
+        });
+      });
+
+      // Make all cols same length
+      headers.forEach((_, columnIndex) => {
+        const longestInCol = [...columns[columnIndex]]
+          ?.sort((a, b) => b.length - a.length)
+          ?.[0];
+        const length = longestInCol?.length;
+
+        columns[columnIndex].forEach((_, cellIndex) => {
+          const value = columns[columnIndex][cellIndex];
+          columns[columnIndex][cellIndex] = toLength(value, length);
+        });
+      });
+
+      // Create table
+      headers.forEach((_, columnIndex) => {
+        columns.forEach((_, rowIndex) => {
+          const value = columns[rowIndex][columnIndex] || '-';
+          table += (value + ' | ');
+        });
+
+        // Next row
+        table += '\n';
+
+        // Add horizontal separator under headers
+        if (columnIndex === 0) {
+          headers.forEach((_, headerIndex) => {
+            const colSeparator = Array(columns?.[headerIndex]?.[columnIndex].length).fill('-').join('');
+            table += colSeparator + ' | ';
+          });
+          table += '\n';
+        }
+      });
 
       return arrToDoc(
         tableName,
-        tagData.extras?.join(' | '),
-        tagData.extras?.map((_, i) => createSeparator(i))?.join(' | '),
-        columns,
+        table,
+        ''
       );
     }
   }

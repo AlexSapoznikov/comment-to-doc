@@ -85,10 +85,11 @@ my description
 more description if I want
 
 Created at
-2020-12-01 15:23:55
+2020-12-02 09:35:41
 
 ##my table name
-header1 | header2 | header3
---------------------------------- | --------------------------------- | ---------------------------------
-First row Content for first cell | First row Content for second cell | Short
-Second row Content for first cell | Second row Content for second cell | Short
+header1                          | header2                                                  | header3 | 
+-------------------------------- | -------------------------------------------------------- | ------- | 
+First row Content for first cell | First row Content for second cell                        | Short   | 
+-                                | Second row Content for second cell which is a bit longer | Short   | 
+
