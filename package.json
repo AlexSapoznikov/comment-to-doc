@@ -3,6 +3,7 @@
   "version": "1.0.3",
   "description": "Module for parsing and converting code comments into documentation",
   "main": "lib/index.js",
+  "source": "src/index.tsx",
   "scripts": {
     "try": "tsc run.ts && node run.js",
     "build": "rm -fr lib && tsc",
