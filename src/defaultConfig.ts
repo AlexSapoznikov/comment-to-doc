@@ -170,12 +170,8 @@ export const defaultTags: Tag[] = [
       }
     ],
     render: tagData => {
-      console.log(tagData);
-
       const getContent = (tag) => {
-        const value = [tag.description, tag.content]
-          ?.filter(exists => exists)
-          ?.join(' ') || ''
+        const value = getName(tag);
 
         const valueWithNewLines = value.split(`\n`).join('<br>');
         return valueWithNewLines.includes('<br>')
@@ -192,7 +188,7 @@ export const defaultTags: Tag[] = [
       const tableName = getContent(tagData);
       const headers = tagData.extras;
       const columns = headers.map(header => [header]); // [[header1], [header2], [header3], ...]
-      const cells = tagData.children;
+      const cells = tagData?.children;
       let table = '';
 
       // Find columns - [[header1, col1, ...], [header2, col2, ...], [header3, col3, ...], ...]
@@ -248,8 +244,55 @@ export const defaultTags: Tag[] = [
       return arrToDoc(
         tableName,
         table,
-        ''
       );
     }
-  }
+  },
+  {
+    tag: "Object",
+    children: [
+      {
+        tag: "Key",
+      }
+    ],
+    render: tagData => {
+      const objectName = getName(tagData);
+
+      const keys = tagData?.children || [];
+      let objectDoc = '';
+
+      keys.forEach(objectKey => {
+        const [key, defaultValue] = objectKey.extras;
+        const nested = key?.split('.')
+        const keyName = nested[nested.length - 1];
+        const place = nested?.length - 1;
+        const spacer = Array(place).fill('  ').join('');
+
+        const description = [objectKey?.description, objectKey?.content]
+          ?.filter(exists => exists)
+          ?.join(' ') || '';
+
+        const defaultValueText = (defaultValue ? ` *(default: ${defaultValue})*` : '');
+        const typeText = objectKey?.type ? ` \`${objectKey?.type}\`` : undefined;
+
+        objectDoc += [
+          `${spacer}- **${keyName}**` + typeText + defaultValueText + `\n`,
+          description.trim() ? `${spacer}  ${description}\n` : undefined,
+          ''
+        ]
+          .filter(exists => exists || exists === '')
+          .join('\n');
+      });
+
+      return arrToDoc(
+        objectName,
+        objectDoc
+      );
+    }
+  },
 ];
+
+function getName (tag) {
+  return [tag?.description, tag?.content]
+    ?.filter(exists => exists)
+    ?.join(' ') || ''
+}

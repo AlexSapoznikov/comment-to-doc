@@ -117,3 +117,49 @@
  * Short
  */
 
+/**
+ * @Custom custom
+ */
+
+/** @Object a */
+const a = {
+  /**
+   * @Key {string} [hello,world] world
+   */
+  hello: 'world',
+  /**
+   * @Key {string} [hi,john] John
+   */
+  hi: 'John',
+  /**
+   * @Key {object} [nested]
+   */
+  nested: {
+    /**
+     * @Key {string} [nested.kanye]
+     */
+    kanye: 'west',
+    /**
+     * @Key [nested.all]
+     */
+    all: {
+      /**
+       * @Key {number} [nested.all.right] right
+       */
+      right: '3',
+
+      /**
+       * @Key {object} [nested.all.more] yes
+       */
+      more: {
+
+        /**
+         * @Key {string} [nested.all.right.ok] right
+         * okasy so here is a bit bigger descrioption about the thing
+         * bheauas xasd ae
+         */
+        ok: 'ok'
+      }
+    }
+  }
+}

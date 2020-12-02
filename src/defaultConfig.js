@@ -106,10 +106,8 @@ exports.defaultTags = [
             }
         ],
         render: function (tagData) {
-            console.log(tagData);
             var getContent = function (tag) {
-                var _a, _b;
-                var value = ((_b = (_a = [tag.description, tag.content]) === null || _a === void 0 ? void 0 : _a.filter(function (exists) { return exists; })) === null || _b === void 0 ? void 0 : _b.join(' ')) || '';
+                var value = getName(tag);
                 var valueWithNewLines = value.split("\n").join('<br>');
                 return valueWithNewLines.includes('<br>')
                     ? "<pre style=\"margin: 0\">" + valueWithNewLines + "</pre>"
@@ -124,7 +122,7 @@ exports.defaultTags = [
             var tableName = getContent(tagData);
             var headers = tagData.extras;
             var columns = headers.map(function (header) { return [header]; }); // [[header1], [header2], [header3], ...]
-            var cells = tagData.children;
+            var cells = tagData === null || tagData === void 0 ? void 0 : tagData.children;
             var table = '';
             // Find columns - [[header1, col1, ...], [header2, col2, ...], [header3, col3, ...], ...]
             cells === null || cells === void 0 ? void 0 : cells.forEach(function (cell) {
@@ -167,7 +165,43 @@ exports.defaultTags = [
                     table += '\n';
                 }
             });
-            return utils_1.arrToDoc(tableName, table, '');
+            return utils_1.arrToDoc(tableName, table);
         }
-    }
+    },
+    {
+        tag: "Object",
+        children: [
+            {
+                tag: "Key"
+            }
+        ],
+        render: function (tagData) {
+            var objectName = getName(tagData);
+            var keys = (tagData === null || tagData === void 0 ? void 0 : tagData.children) || [];
+            var objectDoc = '';
+            keys.forEach(function (objectKey) {
+                var _a, _b;
+                var _c = objectKey.extras, key = _c[0], defaultValue = _c[1];
+                var nested = key === null || key === void 0 ? void 0 : key.split('.');
+                var keyName = nested[nested.length - 1];
+                var place = (nested === null || nested === void 0 ? void 0 : nested.length) - 1;
+                var spacer = Array(place).fill('  ').join('');
+                var description = ((_b = (_a = [objectKey === null || objectKey === void 0 ? void 0 : objectKey.description, objectKey === null || objectKey === void 0 ? void 0 : objectKey.content]) === null || _a === void 0 ? void 0 : _a.filter(function (exists) { return exists; })) === null || _b === void 0 ? void 0 : _b.join(' ')) || '';
+                var defaultValueText = (defaultValue ? " *(default: " + defaultValue + ")*" : '');
+                var typeText = (objectKey === null || objectKey === void 0 ? void 0 : objectKey.type) ? " `" + (objectKey === null || objectKey === void 0 ? void 0 : objectKey.type) + "`" : undefined;
+                objectDoc += [
+                    spacer + "- **" + keyName + "**" + typeText + defaultValueText + "\n",
+                    description.trim() ? spacer + "  " + description + "\n" : undefined,
+                    ''
+                ]
+                    .filter(function (exists) { return exists || exists === ''; })
+                    .join('\n');
+            });
+            return utils_1.arrToDoc(objectName, objectDoc);
+        }
+    },
 ];
+function getName(tag) {
+    var _a, _b;
+    return ((_b = (_a = [tag === null || tag === void 0 ? void 0 : tag.description, tag === null || tag === void 0 ? void 0 : tag.content]) === null || _a === void 0 ? void 0 : _a.filter(function (exists) { return exists; })) === null || _b === void 0 ? void 0 : _b.join(' ')) || '';
+}
