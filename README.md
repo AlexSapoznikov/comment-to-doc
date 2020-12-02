@@ -275,4 +275,28 @@ Eminem said once:
 
 ## Default tags
 
-Exists, but yet undocumented (comming soon)
+- @Title
+- @Usage
+- @Description
+- @Title2
+- @Title3
+- @Title4
+- @Title5
+- @Title6
+- @Default
+- @Bold
+- @Italic
+- @Crossover
+- @Img
+- @Image
+- @Quote
+- @Code
+- @Custom
+- @Date
+- @Table
+- @Column
+- @Object
+- @Key
+
+**More specific documentation coming soon**
+
