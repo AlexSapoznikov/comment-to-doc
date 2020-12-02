@@ -21,16 +21,14 @@ export type Tag = {
 
 export type Template = {
   /**
-   * If true, tags must strictly follow tags and order specified in rules.
-   * Validation will fail if:
+   * Depending on value, validation will fail if:
    *   - Any tag that does not exist in "template.rules" array is found
    *   - Order of the tags is different from one specified in "template.rules" array
-   * Default: false
    */
   strictness?: TemplateStrictness,
 
   /**
-   *
+   * Rules
    */
   rules?: Rule[]
 
