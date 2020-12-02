@@ -16,6 +16,7 @@
   "engines": {
     "node": ">=10"
   },
+  "files": ["lib/**/*"],
   "author": "https://github.com/AlexSapoznikov",
   "license": "MIT",
   "bugs": {
