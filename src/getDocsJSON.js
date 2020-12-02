@@ -11,15 +11,20 @@ var __assign = (this && this.__assign) || function () {
     return __assign.apply(this, arguments);
 };
 exports.__esModule = true;
-exports.parseComments = exports.parseContent = exports.getDocsJSON = void 0;
+exports.parser = exports.getDocsJSON = void 0;
 var utils_1 = require("./utils");
 var getDocsJSON = function (fileContents) {
     return fileContents.map(function (fileContent) { return ({
         path: fileContent.path,
-        data: parseComments(parseContent(fileContent.content))
+        data: parser(fileContent.content)
     }); });
 };
 exports.getDocsJSON = getDocsJSON;
+// Comment parser
+function parser(content) {
+    return parseComments(parseContent(content));
+}
+exports.parser = parser;
 function parseContent(content) {
     var _a;
     var currentContentPart = content;
@@ -44,7 +49,6 @@ function parseContent(content) {
     }
     return comments;
 }
-exports.parseContent = parseContent;
 /**
  * Parse comments
  * @param fileComments
@@ -76,7 +80,6 @@ function parseComments(fileComments) {
         return __assign(__assign({}, tagData), { content: underTagComment });
     });
 }
-exports.parseComments = parseComments;
 /**
  * Handle multi tags in same comment
  * @param fileComments

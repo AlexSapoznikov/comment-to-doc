@@ -50,11 +50,22 @@ key           | Mandatory   | type                                        | defa
 ------------- | ----------- | ------------------------------------------- | -------------------------------------------------------------- | ---------------------------------------------------------------------------------------
 files         | *Mandatory* | `string` or `string[]`                      | `undefined`                                                    | paths to files to read comments from (uses [glob](https://www.npmjs.com/package/glob)).
 excludeFiles  | *Optional*  | `string` or `string[]`                      | `undefined`                                                    | paths to files which should be excluded from `files` paths (uses [glob](https://www.npmjs.com/package/glob)).  
-tags          | *Optional*  | `Tag[]`                                     | `[]`                                                           | Tags configuration which define how each comment tag is rendered into documentation block.
+tags          | *Optional*  | `Tag[]`                                     | `[]`                                                           | Tags configuration which define how each comment tag is rendered into documentation block. By default, if no tags are passed, only the tag with its content will be written to documentation file.
 outputExt     | *Optional*  | `string`                                    | `md`                                                           | Extension of output documentation file.
 output        | *Optional*  | `(dir: string, fileName: string) => string` | `${dir}/${fileName}.${outputExt}`                              | Output path for documentation. Read file directory and name can be used to generate one.
 template      | *Optional*  | `Template`                                  | `{ rules: {}, strictness: undefined, errorHandling: 'error' }` | Configuration for enforcing specific tags and their order.                              
 strict        | *Optional*  | `boolean`                                   | `false`                                                        | If true, will only generate document with tags that are defined in "tags" array. By default all tags are used.
+
+#### *config.tags*
+A simple tag is defined like this:
+```
+type Tag = {
+  tag: string,
+  render?: (parsedComment: ParsedComment) => string,
+  children?: Tag[]
+}
+```
+For more details, [click here](#generate-doc) to see how to configure tag in order to generate documentation.
 
 #### *config.template*
 
@@ -70,7 +81,198 @@ strict        | *Optional*  | `boolean`                                   | `fal
     - `ErrorHandling.Error` - Validation fails with an error and stops the process.
     - `ErrorHandling.Warn` - Validation fails with warnings and does not stop the process.
 
+## Comment syntax
+
+Following example is the full syntax of the comment.
+```
+/**
+ * @MyTagName:alias {type} [my,extra,data] my description
+ * my content
+ */
+```
+**However**, the only mandatory part of it is `@MyTagName`, so it can be as simple as this:
+```
+/**
+ * @MyTag
+ */
+```
+
+Multiple tags can alsoe exist in the same comment:
+```
+/**
+ * @Tag
+ */
+
+/**
+ * @MyTag
+ * @MyOtherTag
+ * @YetAnotherOne
+ */
+```
+
+Valid comment styles are:
+```
+/**
+ * @Tag:alias {type} [my,extra,data] my description
+ * Content
+ */
+```
+```
+/** @Tag:alias {type} [my,extra,data] my description
+Content
+*/
+```
+```
+/*
+ * @Tag:alias {type} [my,extra,data] my description
+ * Content
+ */
+```
+```
+/** @Tag:alias {type} [my,extra,data] my description */
+```
+```
+/* @Tag:alias {type} [ my , extra, data] my description */
+```
+
+*Note: Some of them do not support `content`*
+
+*Note: Yes you can use spaces inside `{ type }` and `[ my , extra, data]`*
+
 ## Parser
-## Comment synta
+Following text
+```
+...
+
+My code or whatever else stuff
+
+/**
+ * @MyTagName:alias {type} [my,extra,data] my description
+ * my content
+ */
+
+My code or whatever else stuff
+
+/**
+ * @EmptyTag
+ */
+
+My code or whatever else stuff
+
+...
+
+```
+
+will be parsed into **docsJSON** which is following:
+```
+[
+  {
+    "tag": "MyTagName",
+    "alias": "alias",
+    "type": "type",
+    "extras": [
+      "my",
+      "extra",
+      "data"
+    ],
+    "description": "my description",
+    "content": "my content"
+  },
+  {
+    "tag": "EmptyTag",
+    "alias": "",
+    "type": "",
+    "extras": [],
+    "description": "",
+    "content": ""
+  }
+]
+```
+- **tag** - the name of the tag
+- **alias** - is used to connect parent with children, but can be used for whatever other reasons as well if children functionality not used.
+- **type** - usually used to define a type (for example object type), but can be used for whatever other reasons.
+- **extras** - possibility to pass extra data in order to help render doc from the tag
+- **description** - one-line description text
+- **content** - multi-line description text
+
+If you need to use the parser for your own purposes, you can import it like this:
+```
+import { commentParser } from "comment-to-doc";
+```
+
+## <a name="generate-doc">Generating document</a>
+The tag type is following:
+```
+type Tag = {
+  tag: string,
+  render?: (parsedComment: ParsedComment) => string,
+  children?: Tag[]
+}
+```
+
+
+1. Suppose we have a file called `file.ts` on root level with following comment:
+
+```
+/**
+ * @MyTagName {Singer} [Eminem, Marshall Mathers] He makes good music
+ * Eminem said once:
+ * > The truth is you don't know what is going to happen tomorrow. Life is a crazy ride, and nothing is guaranteed. I am whatever you say I am; if I wasn't, then why would you say I am.
+ */
+```
+
+1. To define a single tag, give it a name and define how to render it into documentation block.
+    
+   ```
+   const tag = {
+     tag: 'MyTagName',
+     render: ({tag, type, extras, description, content}) => {
+       return [
+         `## ${extras[0]}`,
+         `- Name: ${extras[1]}`,
+         `- He is ${type}`,
+         `- ${description}`,
+         '',
+         content,
+         '',
+         `- created by ${tag}`
+       ].join('\n');
+     }
+   }
+   ```
+
+1. Specify configuration
+
+   ```
+   const config = {
+     files: [
+       'file.ts',
+     ],
+     tags: [tag]  
+   };
+   ```
+   
+1. Run generator
+  
+    ```
+   generateDocs(config);
+   ```
+
+----------
+   
+**This will be the output**:
+
+## Eminem
+- Name: Marshall Mathers
+- He is Singer
+- He makes good music
+
+Eminem said once:
+> The truth is you don't know what is going to happen tomorrow. Life is a crazy ride, and nothing is guaranteed. I am whatever you say I am; if I wasn't, then why would you say I am.
+
+- created by MyTagName
+------------
+
 ## Default tags
-## Building tags
+
+Exists, but yet undocumented (comming soon)

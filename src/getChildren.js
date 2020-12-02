@@ -11,17 +11,19 @@ var __assign = (this && this.__assign) || function () {
     return __assign.apply(this, arguments);
 };
 exports.__esModule = true;
+exports.parseChildren = void 0;
 var utils_1 = require("./utils");
 /**
  * Finds children tags
  */
 var findChildTags = function (docsJSON, tags) {
-    return docsJSON.map(function (docJSON) { return (__assign(__assign({}, docJSON), { data: handleChildren(docJSON.data, tags) })); });
+    return docsJSON.map(function (docJSON) { return (__assign(__assign({}, docJSON), { data: parseChildren(docJSON.data, tags) })); });
 };
-function handleChildren(tagData, tags) {
+function parseChildren(tagData, tags) {
     var tagsMap = createTagsMap(tags);
     return moveChildrenToParents(tagData, tagsMap);
 }
+exports.parseChildren = parseChildren;
 function createTagsMap(tags, map, parent) {
     if (map === void 0) { map = {}; }
     tags === null || tags === void 0 ? void 0 : tags.forEach(function (tag) {

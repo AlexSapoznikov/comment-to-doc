@@ -1,4 +1,14 @@
 "use strict";
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __exportStar = (this && this.__exportStar) || function(m, exports) {
+    for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
+};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -36,10 +46,37 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
+exports.commentParser = exports.defaultTags = void 0;
 var readFiles_1 = require("./readFiles");
 var getDocsJSON_1 = require("./getDocsJSON");
 var createDoc_1 = require("./createDoc");
 var getChildren_1 = require("./getChildren");
+/**
+ * Export types
+ */
+__exportStar(require("./types"), exports);
+/**
+ * Export default config
+ */
+var defaultConfig_1 = require("./defaultConfig");
+__createBinding(exports, defaultConfig_1, "defaultTags");
+/**
+ * Comment parser.
+ * Pass defaultTags in tags if default children need to be parsed.
+ *
+ * @param comments
+ * @param tags
+ */
+var commentParser = function (comments, tags) {
+    if (tags === void 0) { tags = []; }
+    var parsed = getDocsJSON_1.parser(comments);
+    return getChildren_1.parseChildren(parsed, tags);
+};
+exports.commentParser = commentParser;
+/**
+ * Documentation generator
+ * @param config
+ */
 var generateDocs = function (config) { return __awaiter(void 0, void 0, void 0, function () {
     var tags, filePaths, excludeFilePaths, fileContents, docsJSON;
     return __generator(this, function (_a) {
