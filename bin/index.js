@@ -3,15 +3,18 @@
 const program = require('commander');
 const generateDocs = require('../lib/index').default;
 const chalk = require('chalk');
+const urlJoin = require('url-join');
 
-let configPath = './comment-to-doc.config.js';
+let configPath = urlJoin(__dirname, 'comment-to-doc.config.js');
 
 program
   .option('-c, --config <path>', 'Path to configuration file.')
   .option('-i, --info', 'Include more info about generation results.')
   .option('-v, --verbose', 'More info about errors')
   .action(async ({ config, info, verbose }) => {
-    configPath = config?.trim() || configPath;
+    configPath = config?.trim()
+      ? urlJoin(__dirname, config.trim())
+      : configPath;
 
     let commentToDocConfig;
     let docsJSON;
