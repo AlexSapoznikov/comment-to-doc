@@ -173,42 +173,62 @@
 /** @Object a */
 const a = {
   /**
-   * @Key {string} [hello,world] world
+   * @Key {string} [one,world] world
    */
-  hello: 'world',
+  one: 'world',
   /**
-   * @Key {string} [hi,john] John
+   * @Key {string} [two,john] John
    */
-  hi: 'John',
+  two: 'John',
   /**
-   * @Key {object} [nested]
+   * @Key {object} [three]
    */
-  nested: {
+  three: {
     /**
-     * @Key {string} [nested.kanye]
+     * @Key {string} [three.three_one]
      */
-    kanye: 'west',
+    three_one: 'west',
     /**
-     * @Key [nested.all]
+     * @Key [three.three_two]
      */
-    all: {
+    three_two: {
       /**
-       * @Key {number} [nested.all.right] right
+       * @Key {number} [three.three_two.three_two_one] right
        */
-      right: '3',
+      three_two_one: '3',
 
       /**
-       * @Key {object} [nested.all.more] yes
+       * @Key {object} [three.three_two.three_two_two] yes
        */
-      more: {
+      three_two_two: {
 
         /**
-         * @Key {string} [nested.all.right.ok] right
+         * @Key {string} [three.three_two.three_two_one.three_two_one_one] right
          * okasy so here is a bit bigger descrioption about the thing
          * bheauas xasd ae
          */
-        ok: 'ok'
+        three_two_one_one: 'ok',
+
+        /**
+         * @Key {object} [three.three_two.three_two_two.some.unexpected.nested.child]
+         */
+        test2: 'test2',
       }
-    }
-  }
+    },
+
+    /**
+     * @Key {object} [three.three_two.some.unexpected.nested.child]
+     */
+    three_three: 'test1',
+  },
+
+  /**
+   * @Key {object} [some.unexpected.nested.child]
+   */
+  four: 'test',
+
+  /**
+   * @Key {object}
+   */
+  five: 'nonamer'
 }

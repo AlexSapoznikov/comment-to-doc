@@ -257,25 +257,43 @@ const defaultTags: Tag[] = [
     render: tagData => {
       const objectName = getName(tagData);
 
-      const keys = tagData?.children || [];
+      const keys = tagData?.children?.filter(exists => exists) || [];
+      const parentNames = keys?.map(c => c?.extras?.[0]);
       let objectDoc = '';
 
       keys.forEach(objectKey => {
         const [key, defaultValue] = objectKey.extras;
         const nested = key?.split('.') || [''];
-        const keyName = nested?.[nested?.length - 1] || '<unspecified key>';
-        const place = nested?.length - 1;
+        let place = nested?.length - 1;
+
+        // Remove place for each parent that does not exist
+        for (let i = 0; i < nested.length; i++) {
+          const possibleParent = nested?.slice?.(0, nested?.length - 1 - i)?.join('.');
+          const parentExists = parentNames?.includes?.(possibleParent);
+
+          if (!parentExists && place > 0) {
+            place--;
+          } else {
+            break;
+          }
+        }
+
         const spacer = Array(place).fill('  ').join('');
+        const keyName = nested?.[nested?.length - 1];
+
+        const keyNameText = place < (nested.length - 1)
+          ? nested?.slice(place)?.join('.')
+          : keyName || '<unspecified key>';
 
         const description = [objectKey?.description, objectKey?.content]
           ?.filter(exists => exists)
           ?.join(' ') || '';
 
         const defaultValueText = (defaultValue ? ` *(default: ${defaultValue})*` : '');
-        const typeText = objectKey?.type ? ` \`${objectKey?.type}\`` : undefined;
+        const typeText = objectKey?.type ? ` \`${objectKey?.type}\`` : '';
 
         objectDoc += [
-          `${spacer}- **${keyName}**` + typeText + defaultValueText + `\n`,
+          `${spacer}- **${keyNameText}**` + typeText + defaultValueText + `\n`,
           description.trim() ? `${spacer}  ${description}\n` : undefined,
           ''
         ]

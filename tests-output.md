@@ -88,7 +88,7 @@ my description
 more description if I want
 
 Created at
-2020-12-03 12:55:48
+2020-12-03 14:18:42
 
 ##my table name
 header1                           | header2                                                  | header3 | 
@@ -99,30 +99,38 @@ Second row Content for first cell | Second row Content for second cell which is 
 custom
 
 a
-- **hello** `string` *(default: world)*
+- **one** `string` *(default: world)*
 
   world
 
-- **<unspecified key>** `string`
+- **two** `string` *(default: john)*
 
-  test
+  John
 
-- **nested** `object`
+- **three** `object`
 
-  - **kanye** `string`
+  - **three_one** `string`
 
-  - **all**undefined
+  - **three_two**
 
-    - **right** `number`
+    - **three_two_one** `number`
 
       right
 
-    - **more** `object`
+    - **three_two_two** `object`
 
       yes
 
-      - **ok** `string`
+      - **three_two_one_one** `string`
 
         right okasy so here is a bit bigger descrioption about the thing
 bheauas xasd ae
+
+      - **some.unexpected.nested.child** `object`
+
+    - **some.unexpected.nested.child** `object`
+
+- **some.unexpected.nested.child** `object`
+
+- **<unspecified key>** `object`
 
