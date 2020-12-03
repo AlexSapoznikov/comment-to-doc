@@ -275,6 +275,18 @@ Eminem said once:
 - created by MyTagName
 ------------
 
+## CLI
+```
+Usage: comment-to-doc [options]
+
+Options:
+  -c, --config <path>  Path to configuration file.
+  -i, --info           Include more info about generation results.
+  -h, --help           display help for command
+```
+By default the module with search for configuration in `./comment-to-doc.config.js`,
+
+
 ## Default tags
 
 - @Title
