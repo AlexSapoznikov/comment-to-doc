@@ -243,6 +243,7 @@ const defaultTags: Tag[] = [
 
       return arrToDoc(
         tableName,
+        '',
         table,
       );
     }
