@@ -195,9 +195,11 @@ will be parsed into **docsJSON** which is following:
 - **description** - one-line description text
 - **content** - multi-line description text
 
-If you need to use the parser for your own purposes, you can import it like this:
+If you need to use the parser for your own purposes, you can import and use it like this:
 ```
 import { commentParser } from "comment-to-doc";
+
+commentParser(text, tags);
 ```
 
 ## <a name="generate-doc">Generating document</a>
@@ -213,13 +215,13 @@ type Tag = {
 
 1. Suppose we have a file called `file.ts` on root level with following comment:
 
-```
-/**
- * @MyTagName {Singer} [Eminem, Marshall Mathers] He makes good music
- * Eminem said once:
- * > The truth is you don't know what is going to happen tomorrow. Life is a crazy ride, and nothing is guaranteed. I am whatever you say I am; if I wasn't, then why would you say I am.
- */
-```
+    ```
+    /**
+     * @MyTagName {Singer} [Eminem, Marshall Mathers] He makes good music
+     * Eminem said once:
+     * > The truth is you don't know what is going to happen tomorrow. Life is a crazy ride, and nothing is guaranteed. I am whatever you say I am; if I wasn't, then why would you say I am.
+     */
+    ```
 
 1. To define a single tag, give it a name and define how to render it into documentation block.
     
@@ -276,13 +278,13 @@ Eminem said once:
 ## Default tags
 
 - @Title
-- @Usage
-- @Description
 - @Title2
 - @Title3
 - @Title4
 - @Title5
 - @Title6
+- @Usage
+- @Description
 - @Default
 - @Bold
 - @Italic
@@ -298,5 +300,20 @@ Eminem said once:
 - @Object
 - @Key
 
-**More specific documentation coming soon**
+For usage, see:
+- Input: <a href="/tests-input.tsx">`tests-input.tsx`</a>
+- Output: <a href="/tests-output.md">`tests-output.md`</a>
 
+## Want to play around a bit?
+1. Clone or fork this repository.
+1. `npm install`
+1. Edit `tests-input.tsx` file
+1. `npm run try`
+1. See `tests-output.md` for results
+
+## Tests
+`npm test` to run tests
+
+## Your own tags
+If you come up with your own cool tags, you can send me a link to your repository,
+so I could add it here in this documentation.

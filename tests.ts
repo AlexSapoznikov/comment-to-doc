@@ -6,10 +6,10 @@ import generateDocs, { Config, defaultTags } from "./src";
 
 const runConfig: Config = {
   files: [
-    'run.tsx',
+    'test-input.tsx',
   ],
   tags: defaultTags,
-  output: () => './run.md'
+  output: () => './test-output.md'
 };
 
 generateDocs(runConfig);

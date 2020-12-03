@@ -1,3 +1,7 @@
+// =============
+// == TITLES ===
+// =============
+
 /**
  * @Title My title
  */
@@ -24,20 +28,44 @@
  * @Title6 title6
  * @Title:5 title:6
  *
+ */
+
+// =============
+// == TEXT =====
+// =============
+
+/**
  * @Bold my bold text
  * @Italic my italic text
  * @Crossover my crossed over text
- *
+ */
+
+// ==============
+// == IMAGE =====
+// ==============
+
+/**
  * @Img [https://picsum.photos/200/300, alt text] My image
  * @Img [https://picsum.photos/200/300] My image
  * @Img [https://picsum.photos/200/300]
- *
+ * @Image [https://picsum.photos/200/300]
+ */
+
+// ==============
+// == QUOTE =====
+// ==============
+
+/**
  * @Quote As Kanye West said:
  * I like myself the most
  * @Quote To be or not to be
  * @Quote
  * This library is so amazing
  */
+
+// ==============
+// == CODE ======
+// ==============
 
 /**
  * @Code {javascript}
@@ -57,10 +85,18 @@
  * }
  */
 
+// ==============
+// == USAGE =====
+// ==============
+
 /**
  * @Usage In order to use, include it like this:
  * testtest
  */
+
+// ===============
+// == CUSTOM =====
+// ===============
 
 /**
  * @Custom ### My custom
@@ -69,6 +105,10 @@
  * **custom *text* for my ~~custom~~ content**
  */
 
+// ====================
+// == DESCRIPTION =====
+// ====================
+
 /**
  * @Description my description
  *
@@ -76,12 +116,17 @@
  * more description if I want
  */
 
+// ==============
+// == DATE =====
+// ==============
+
 /**
  * @Date Created at
  */
 
-
-
+// ============
+// == TABLE ===
+// ============
 
 /**
  * @Table [header1, header2, header3] ##my table name
@@ -120,6 +165,10 @@
 /**
  * @Custom custom
  */
+
+// =============
+// == OBJECT ===
+// =============
 
 /** @Object a */
 const a = {
