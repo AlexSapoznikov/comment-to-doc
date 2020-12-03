@@ -8,7 +8,8 @@
     "try": "tsc tests.ts && node tests.js",
     "build": "rm -fr lib && tsc",
     "lint": "tslint -p tsconfig.json",
-    "test": "jest --config jestconfig.json"
+    "test": "jest --config jestconfig.json",
+    "test-cli": "node ./bin -c ../comment-to-doc.config.js -i -v"
   },
   "repository": {
     "type": "git",

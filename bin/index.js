@@ -4,12 +4,13 @@ const program = require('commander');
 const generateDocs = require('../lib/index').default;
 const chalk = require('chalk');
 
-let configPath = '../comment-to-doc.config.js';
+let configPath = './comment-to-doc.config.js';
 
 program
   .option('-c, --config <path>', 'Path to configuration file.')
   .option('-i, --info', 'Include more info about generation results.')
-  .action(async ({ config, info }) => {
+  .option('-v, --verbose', 'More info about errors')
+  .action(async ({ config, info, verbose }) => {
     configPath = config?.trim() || configPath;
 
     let commentToDocConfig;
@@ -28,7 +29,10 @@ program
         return;
       }
     } catch (err) {
-      console.log(`FAILED: Didn't find configuration file from "${configPath}"`,)
+      console.log(`FAILED: Didn't find configuration file from "${configPath}"`);
+      if (verbose) {
+        throw err;
+      }
       return;
     }
 
@@ -45,6 +49,9 @@ program
       console.log(msg);
     } catch (err) {
       console.log(`FAILED: ${err?.message}`);
+      if (verbose) {
+        throw err;
+      }
       return;
     }
 
