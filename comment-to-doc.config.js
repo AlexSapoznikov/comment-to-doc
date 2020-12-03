@@ -2,7 +2,6 @@
  * Config for CLI
  */
 
-// import generateDocs, { defaultTags } from "./src";
 const { defaultTags } = require('./lib')
 
 module.exports = {

@@ -31,7 +31,7 @@ const runConfig: Config = {
 generateDocs(runConfig);
 ```
 
-### Configuration
+### <a name="config">Configuration</a>
 
 #### *config*
 ```
@@ -286,6 +286,19 @@ Options:
 ```
 By default the module with search for configuration in `./comment-to-doc.config.js`,
 
+### Example config file (`comment-to-doc.config.js`)
+This is the very same configuration described above in <a href="#config">Configuration section</a>
+```javascript
+const { defaultTags } = require('./lib')
+
+module.exports = {
+  files: [
+    './tests-input.tsx',
+  ],
+  tags: defaultTags,
+  output: () => './cli-output.md'
+};
+```
 
 ## Default tags
 
