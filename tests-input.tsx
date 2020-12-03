@@ -38,6 +38,8 @@
  * @Bold my bold text
  * @Italic my italic text
  * @Crossover my crossed over text
+ * @Custom custom
+ * @Default default
  */
 
 // ==============
@@ -163,7 +165,18 @@
  */
 
 /**
- * @Custom custom
+ * @Column [header1] Third row
+ * Content for first cell
+ */
+
+/**
+ * @Column [header2] Third row
+ * Content for second cell which is a bit longer
+ */
+
+/**
+ * @Column [header3]
+ * Short
  */
 
 // =============

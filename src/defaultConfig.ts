@@ -221,10 +221,12 @@ const defaultTags: Tag[] = [
         });
       });
 
+      const longestColumns = columns.sort((a, b) => b.length - a.length);
+
       // Create table
-      headers.forEach((_, columnIndex) => {
+      longestColumns?.[0].forEach((_, columnIndex) => {
         columns.forEach((_, rowIndex) => {
-          const value = columns[rowIndex][columnIndex] || '-';
+          const value = columns?.[rowIndex]?.[columnIndex] || '-';
           table += (value + ' | ');
         });
 

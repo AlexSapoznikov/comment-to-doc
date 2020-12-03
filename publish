@@ -1,8 +1,6 @@
 #!/bin/bash
 # Quick publish script
 
-npm run lint &&
-npm run test &&
 npm run build &&
 rm -fr ./src/*.js &&
 git commit -a -m "$@" &&

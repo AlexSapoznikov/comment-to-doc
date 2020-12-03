@@ -12,10 +12,12 @@
     "target": "es5",
     "noUnusedLocals": true,
     "noUnusedParameters": true,
+    "sourceMap": true,
     "outDir": "./lib"
   },
   "include": [
-    "src"
+    "src",
+    "./tests.ts"
   ],
   "exclude": [
     "node_modules",

@@ -32,6 +32,10 @@ Content
 
 ~~my crossed over text~~
 
+custom
+
+default
+
 My image
 
 ![alt text](https://picsum.photos/200/300)
@@ -88,15 +92,15 @@ my description
 more description if I want
 
 Created at
-2020-12-03 14:18:42
+2020-12-03 15:34:52
 
 ##my table name
+
 header1                           | header2                                                  | header3 | 
 --------------------------------- | -------------------------------------------------------- | ------- | 
 First row Content for first cell  | First row Content for second cell                        | Short   | 
 Second row Content for first cell | Second row Content for second cell which is a bit longer | Short   | 
-
-custom
+Third row Content for first cell  | Third row Content for second cell which is a bit longer  | Short   | 
 
 a
 - **one** `string` *(default: world)*

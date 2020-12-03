@@ -5,7 +5,7 @@
   "main": "lib/index.js",
   "source": "src/index.tsx",
   "scripts": {
-    "try": "tsc tests.ts && node tests.js",
+    "try": "tsc && node lib/tests.js",
     "build": "rm -fr lib && tsc",
     "lint": "tslint -p tsconfig.json",
     "test": "jest --config jestconfig.json",
