@@ -177,7 +177,7 @@ const a = {
    */
   hello: 'world',
   /**
-   * @Key {string} test
+   * @Key {string} [hi,john] John
    */
   hi: 'John',
   /**
