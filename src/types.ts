@@ -78,7 +78,8 @@ export type ParsedComment = ExtractedTagData & {
 
 export type DocJSON = {
   path: string,
-  data: ParsedComment[]
+  data: ParsedComment[],
+  output?: string;
 };
 
 export type DocsJSON = DocJSON[];

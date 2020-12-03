@@ -17,13 +17,17 @@ const defaultRender: TagRender = (tagData) => {
     .join('\n');
 };
 
-export const createDocs = (docsJSON: DocsJSON, tags: Tag[], config: Config) => {
+export const createDocs = async (docsJSON: DocsJSON, tags: Tag[], config: Config) => {
   // console.log('docsJSON', JSON.stringify(docsJSON, null, 2));
   // console.log('tags', tags);
 
-  return Promise.all(
+  const outputs = await Promise.all(
     docsJSON.map(doc => writeToFile(doc, tags, config))
   );
+
+  docsJSON.forEach((docJSON, i) => docJSON.output = outputs[i]);
+
+  return docsJSON;
 }
 
 async function writeToFile (doc: DocJSON, tags: Tag[], config: Config) {
@@ -53,11 +57,13 @@ async function writeToFile (doc: DocJSON, tags: Tag[], config: Config) {
   });
 
   // Write to file
-  return writeFile$(
+  await writeFile$(
     outputPath,
     documentText.join(`\n`),
     {
       encoding: 'utf8',
       flag: 'w'
     });
+
+  return outputPath;
 }
