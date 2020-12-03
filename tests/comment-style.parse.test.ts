@@ -153,13 +153,88 @@ Content
       }
     ]
   },
-]
+];
+
+// These should be ignored
+const ignored = [
+  {
+    in: `
+      /** 
+       * Tag1:alias {type} [extra,data] description
+       * Content
+       */
+    `,
+    out: undefined
+  },
+  {
+    in: `
+      /** 
+       * Tag
+       */
+    `,
+    out: undefined
+  },
+  {
+    in: `
+      /** 
+       * Tag:alias
+       */
+    `,
+    out: undefined
+  },
+  {
+    in: `
+      /** 
+       * Tag
+       * content
+       */
+    `,
+    out: undefined
+  },
+  {
+    in: `
+      /** Tag */
+    `,
+    out: undefined
+  },
+  {
+    in: `
+      /* Tag */
+    `,
+    out: undefined
+  },
+  {
+    in: `
+      /**
+      Tag
+      */
+    `,
+    out: undefined
+  },
+  {
+    in: `
+      /*
+       * Tag
+       */
+    `,
+    out: undefined
+  },
+];
 
 describe('Parse tests for different comment styles', () => {
   testCases.forEach(testCase => {
     it (testCase.in, () => {
       const parsed = commentParser(testCase.in?.trim());
       expect(parsed).toMatchObject(testCase.out);
+    });
+  });
+});
+
+describe('Ignore comments that use another syntax ', () => {
+  ignored.forEach(ignore => {
+    it (ignore.in, () => {
+      const [parsed] = commentParser(ignore.in?.trim());
+      expect(parsed).toBe(undefined);
     });
   });
 });

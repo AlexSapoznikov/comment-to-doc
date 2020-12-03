@@ -8,7 +8,8 @@
     "try": "tsc run.ts && node run.js",
     "build": "rm -fr lib && tsc",
     "lint": "tslint -p tsconfig.json",
-    "test": "jest --config jestconfig.json"
+    "test": "jest --config jestconfig.json",
+    "publish": "npm run lint && npm run test && npm run build && npm version patch && npm publish"
   },
   "repository": {
     "type": "git",
