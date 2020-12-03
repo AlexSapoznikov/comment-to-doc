@@ -262,8 +262,8 @@ const defaultTags: Tag[] = [
 
       keys.forEach(objectKey => {
         const [key, defaultValue] = objectKey.extras;
-        const nested = key?.split('.')
-        const keyName = nested[(nested?.length || 1) - 1] || '';
+        const nested = key?.split('.') || [''];
+        const keyName = nested?.[nested?.length - 1] || '<unspecified key>';
         const place = nested?.length - 1;
         const spacer = Array(place).fill('  ').join('');
 

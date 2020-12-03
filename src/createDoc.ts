@@ -4,7 +4,8 @@ import { Config, DocJSON, DocsJSON, ParsedComment, Tag, TagRender } from './type
 import { promisify } from 'util';
 import { writeFile } from 'fs';
 import * as urlJoin from 'url-join';
-import * as fs from "fs";
+import * as fs from 'fs';
+import * as chalk from 'chalk';
 
 const writeFile$ = promisify(writeFile);
 
@@ -55,9 +56,16 @@ async function writeToFile (doc: DocJSON, tags: Tag[], config: Config) {
     }
 
     // Add rendered comment to document text array
-    documentText.push(
-      render(tagData)
-    );
+    try {
+      documentText.push(
+        render(tagData)
+      );
+    } catch (err) {
+      console.log(
+        chalk.red(`Render ignored. Error occurred in @${tagOpts?.tag} render method.`)
+      );
+      console.log('Error info:', err);
+    }
   });
 
   // Write to file
