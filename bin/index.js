@@ -3,6 +3,7 @@
 const program = require('commander');
 const generateDocs = require('../lib/index').default;
 const chalk = require('chalk');
+const urlJoin = require('url-join');
 
 let configPath = './comment-to-doc.config.js';
 
@@ -12,13 +13,16 @@ program
   .option('-v, --verbose', 'More info about errors')
   .action(async ({ config, info, verbose }) => {
     configPath = config?.trim() ? config.trim() : configPath;
+    console.log('process.cwd()', process.cwd());
 
     let commentToDocConfig;
     let docsJSON;
 
     // Check config file
     try {
-      commentToDocConfig = require.main.require(configPath);
+      commentToDocConfig = require.main.require(
+        urlJoin(process.cwd(), configPath)
+      );
 
       if (!commentToDocConfig) {
         console.log(`FAILED: Did not find configuration in "${configPath}"`,)
