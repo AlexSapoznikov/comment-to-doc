@@ -302,7 +302,7 @@ Eminem said once:
 
 For usage, see:
 - Input: <a href="https://github.com/AlexSapoznikov/comment-to-doc/blob/master/tests-input.tsx">`tests-input.tsx`</a>
-- Output: <a href="https://github.com/AlexSapoznikov/comment-to-doc/blob/master/tests-output.tsx">`tests-output.md`</a>
+- Output: <a href="https://github.com/AlexSapoznikov/comment-to-doc/blob/master/tests-output.md">`tests-output.md`</a>
 
 ## Want to play around a bit?
 1. Clone or fork this repository.
