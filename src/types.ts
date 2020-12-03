@@ -67,6 +67,7 @@ export type ExtractedTagData = {
   tag: string,
   alias: string,
   type: string,
+  required: boolean,
   description: string,
   extras: string[],
 };

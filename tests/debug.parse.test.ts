@@ -16,6 +16,7 @@ const testCases = [
       "tag": "Tag",
       "alias": "alias",
       "type": "",
+      "required": false,
       "extras": [],
       "description": "",
       "content": ""

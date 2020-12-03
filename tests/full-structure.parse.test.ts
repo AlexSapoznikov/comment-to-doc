@@ -12,6 +12,7 @@ const fullStructureOut = {
   "tag": "Tag",
   "alias": "alias",
   "type": "type",
+  "required": false,
   "extras": [
     "extra",
     "data"
@@ -20,6 +21,14 @@ const fullStructureOut = {
   "content": "Content"
 };
 
+const fullStructureOutRequired = {
+  ...fullStructureOut,
+  required: true
+}
+
+// ================
+// WITHOUT REQUIRED
+// ================
 const testCases = [
   {
     in: `
@@ -110,11 +119,116 @@ const testCases = [
        */
     `,
     out: fullStructureOut
-  }
-]
+  },
+];
 
-describe('Full structure parse tests', () => {
+// =============
+// WITH REQUIRED
+// =============
+const testCasesWithRequired = [
+  {
+    in: `
+      /**
+       * @Tag:alias {type!} [extra,data] description
+       * Content
+       */
+    `,
+    out: fullStructureOutRequired
+  },
+  {
+    in: `
+      /**
+       * @Tag:alias { type!} [extra,data] description
+       * Content
+       */
+    `,
+    out: fullStructureOutRequired
+  },
+  {
+    in: `
+      /**
+       * @Tag:alias {type! } [extra,data] description
+       * Content
+       */
+    `,
+    out: fullStructureOutRequired
+  },
+  {
+    in: `
+      /**
+       * @Tag:alias { type !} [extra,data] description
+       * Content
+       */
+    `,
+    out: fullStructureOutRequired
+  },
+  {
+    in: `
+      /**
+       * @Tag:alias {type!} [ extra,data] description
+       * Content
+       */
+    `,
+    out: fullStructureOutRequired
+  },
+  {
+    in: `
+      /**
+       * @Tag:alias {type!} [extra, data] description
+       * Content
+       */
+    `,
+    out: fullStructureOutRequired
+  },
+  {
+    in: `
+      /**
+       * @Tag:alias {type!} [extra,data ] description
+       * Content
+       */
+    `,
+    out: fullStructureOutRequired
+  },
+  {
+    in: `
+      /**
+       * @Tag:alias {type!} [ extra, data] description
+       * Content
+       */
+    `,
+    out: fullStructureOutRequired
+  },
+  {
+    in: `
+      /**
+       * @Tag:alias {type!} [ extra, data ] description
+       * Content
+       */
+    `,
+    out: fullStructureOutRequired
+  },
+  {
+    in: `
+      /**
+       * @Tag:alias {  type  ! } [  extra,   data  ]    description
+       *   Content
+       */
+    `,
+    out: fullStructureOutRequired
+  }
+];
+
+describe('Full structure parse tests without required type', () => {
   testCases.forEach(testCase => {
+    it (testCase.in, () => {
+      const [parsed] = commentParser(testCase.in);
+      expect(parsed).toMatchObject(testCase.out);
+    });
+  });
+});
+
+describe('Full structure parse tests with required type', () => {
+  testCasesWithRequired.forEach(testCase => {
     it (testCase.in, () => {
       const [parsed] = commentParser(testCase.in);
       expect(parsed).toMatchObject(testCase.out);

@@ -16,6 +16,7 @@ const testCases = [
       "tag": "Tag",
       "alias": "alias",
       "type": "type",
+      "required": false,
       "extras": [
         "extra",
         "data"
@@ -32,6 +33,7 @@ const testCases = [
       "tag": "Tag",
       "alias": "alias",
       "type": "type",
+      "required": false,
       "extras": [
         "extra",
         "data"
@@ -48,6 +50,7 @@ const testCases = [
       "tag": "Tag",
       "alias": "alias",
       "type": "type",
+      "required": false,
       "extras": [
         "extra",
         "data"
@@ -66,6 +69,7 @@ Content
       "tag": "Tag",
       "alias": "alias",
       "type": "type",
+      "required": false,
       "extras": [
         "extra",
         "data"
@@ -84,6 +88,7 @@ Content
       "tag": "Tag",
       "alias": "alias",
       "type": "type",
+      "required": false,
       "extras": [
         "extra",
         "data"
@@ -112,6 +117,7 @@ Content
         "tag": "Tag1",
         "alias": "alias",
         "type": "type",
+        "required": false,
         "extras": [
           "extra",
           "data"
@@ -123,6 +129,7 @@ Content
         "tag": "Tag2",
         "alias": "alias2",
         "type": "",
+        "required": false,
         "extras": [],
         "description": "",
         "content": ""
@@ -131,6 +138,7 @@ Content
         "tag": "Tag3",
         "alias": "",
         "type": "",
+        "required": false,
         "extras": [],
         "description": "",
         "content": ""
@@ -139,6 +147,7 @@ Content
         "tag": "Tag4",
         "alias": "",
         "type": "",
+        "required": false,
         "extras": [],
         "description": "tag4 description",
         "content": ""
@@ -147,6 +156,7 @@ Content
         "tag": "Tag5",
         "alias": "",
         "type": "",
+        "required": false,
         "extras": [],
         "description": "",
         "content": "tag 5 content"

@@ -144,6 +144,7 @@ function extractTagData (tagComment: string) {
   let tag = tagComment;
   let alias = '';
   let type = '';
+  let required = false;
   let description = '';
   let extras = [];
 
@@ -159,6 +160,7 @@ function extractTagData (tagComment: string) {
   // Extract type
   const extractedType = extractType(commentChunk);
   type = extractedType.type;
+  required = extractedType.required;
   commentChunk = extractedType.commentChunk;
 
   // Extract extras
@@ -176,6 +178,7 @@ function extractTagData (tagComment: string) {
     tag,
     alias,
     type,
+    required,
     extras,
     description
   };
@@ -197,6 +200,7 @@ function extractTag (commentChunk: string) {
 
 function extractType (commentChunk: string) {
   let type = '';
+  let required = false;
 
   const typeIndexStart = commentChunk.indexOf('{');
   const typeIndexEnd = commentChunk.indexOf('}');
@@ -207,8 +211,14 @@ function extractType (commentChunk: string) {
     commentChunk = commentChunk.slice(typeIndexEnd + 1);
   }
 
+  if (type.endsWith('!')) {
+    required = true;
+    type = type?.slice(0, type.length - 1).trim();
+  }
+
   return {
     type,
+    required,
     commentChunk
   }
 }
