@@ -301,8 +301,8 @@ Eminem said once:
 - @Key
 
 For usage, see:
-- Input: <a href="/tests-input.tsx">`tests-input.tsx`</a>
-- Output: <a href="/tests-output.md">`tests-output.md`</a>
+- Input: <a href="https://github.com/AlexSapoznikov/comment-to-doc/blob/master/tests-input.tsx">`tests-input.tsx`</a>
+- Output: <a href="https://github.com/AlexSapoznikov/comment-to-doc/blob/master/tests-output.tsx">`tests-output.md`</a>
 
 ## Want to play around a bit?
 1. Clone or fork this repository.
