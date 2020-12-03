@@ -159,6 +159,12 @@ My code or whatever else stuff
 
 My code or whatever else stuff
 
+/**
+ * @EmptyTag {mytype!}
+ */
+
+My code or whatever else stuff
+
 ...
 
 ```
@@ -170,6 +176,7 @@ will be parsed into **docsJSON** which is following:
     "tag": "MyTagName",
     "alias": "alias",
     "type": "type",
+    "required": false,
     "extras": [
       "my",
       "extra",
@@ -182,18 +189,29 @@ will be parsed into **docsJSON** which is following:
     "tag": "EmptyTag",
     "alias": "",
     "type": "",
+    "required": false,
+    "extras": [],
+    "description": "",
+    "content": ""
+  },
+    {
+    "tag": "EmptyTag",
+    "alias": "",
+    "type": "mytype",
+    "required": true,
     "extras": [],
     "description": "",
     "content": ""
   }
 ]
 ```
-- **tag** - the name of the tag
+- **tag** - the name of the tag.
 - **alias** - is used to connect parent with children, but can be used for whatever other reasons as well if children functionality not used.
 - **type** - usually used to define a type (for example object type), but can be used for whatever other reasons.
-- **extras** - possibility to pass extra data in order to help render doc from the tag
-- **description** - one-line description text
-- **content** - multi-line description text
+- **required** - defines whether target is required. This is set to true if type value ends with `!` mark.
+- **extras** - possibility to pass extra data in order to help render doc from the tag.
+- **description** - one-line description text.
+- **content** - multi-line description text.
 
 If you need to use the parser for your own purposes, you can import and use it like this:
 ```
