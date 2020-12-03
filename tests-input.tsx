@@ -194,7 +194,7 @@ const a = {
    */
   two: 'John',
   /**
-   * @Key {object} [three]
+   * @Key {object!} [three,cena]
    */
   three: {
     /**

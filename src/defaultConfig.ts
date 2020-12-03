@@ -266,6 +266,9 @@ const defaultTags: Tag[] = [
 
       keys.forEach(objectKey => {
         const [key, defaultValue] = objectKey.extras;
+        const isRequired = objectKey.required
+          ? `  <span style="color: #f3454c">required</span>`
+          : '';
         const nested = key?.split('.') || [''];
         let place = nested?.length - 1;
 
@@ -296,7 +299,7 @@ const defaultTags: Tag[] = [
         const typeText = objectKey?.type ? ` \`${objectKey?.type}\`` : '';
 
         objectDoc += [
-          `${spacer}- **${keyNameText}**` + typeText + defaultValueText + `\n`,
+          `${spacer}- **${keyNameText}**` + typeText + defaultValueText + isRequired + `\n`,
           description.trim() ? `${spacer}  ${description}\n` : undefined,
           ''
         ]
