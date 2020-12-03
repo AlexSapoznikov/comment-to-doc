@@ -13,7 +13,6 @@ program
   .option('-v, --verbose', 'More info about errors')
   .action(async ({ config, info, verbose }) => {
     configPath = config?.trim() ? config.trim() : configPath;
-    console.log('process.cwd()', process.cwd());
 
     let commentToDocConfig;
     let docsJSON;
