@@ -2,9 +2,9 @@
  * Manual test run
  */
 
-import generateDocs, { Config, defaultTags } from "./src";
+import generateDocs, { Config, defaultTags } from ".";
 
-const runConfig: Config = {
+const config: Config = {
   files: [
     'tests-input.tsx',
   ],
@@ -12,4 +12,4 @@ const runConfig: Config = {
   output: () => './tests-output.md'
 };
 
-generateDocs(runConfig);
+generateDocs(config);

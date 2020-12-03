@@ -21,14 +21,14 @@ The fastest way to get started with default configuration is like this:
 ```
 import generateDocs, { Config, defaultTags } from "comment-to-doc";
 
-const runConfig: Config = {
+const config: Config = {
   files: [
     './src/**/*.tsx',
   ],
   tags: defaultTags,
 };
 
-generateDocs(runConfig);
+generateDocs(config);
 ```
 
 ### <a name="config">Configuration</a>
