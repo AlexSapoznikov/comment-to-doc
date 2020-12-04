@@ -57,7 +57,7 @@ export const nthIndexOf = (str, pat, n) => {
   let i = -1;
 
   while (n-- && i++ < L){
-    i= str.indexOf(pat, i);
+    i = str.indexOf(pat, i);
     if (i < 0) {
       break;
     }
