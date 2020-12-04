@@ -340,6 +340,7 @@ module.exports = {
 - @Date
 - @Table
 - @Column
+- @Row
 - @Object
 - @Key
 

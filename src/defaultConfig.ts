@@ -167,6 +167,9 @@ const defaultTags: Tag[] = [
     children: [
       {
         tag: "Column",
+      },
+      {
+        tag: "Row",
       }
     ],
     render: tagData => {
@@ -188,21 +191,45 @@ const defaultTags: Tag[] = [
       const tableName = getContent(tagData);
       const headers = tagData.extras;
       const columns = headers.map(header => [header]); // [[header1], [header2], [header3], ...]
-      const cells = tagData?.children;
+      const children = tagData?.children;
+      const longestColumns = columns.sort((a, b) => b.length - a.length);
       let table = '';
 
+      // Convert all rows to Columns - ordered by header type
+      for (let childIndex = children.length - 1; childIndex >= 0; childIndex--) {
+        const child = children[childIndex];
+
+        if (child.tag === 'Row') {
+          const values = child.extras;
+          const newColumns = values.map((value, valueIndex) => ({
+            tag: 'Column',
+            alias: child.alias,
+            type: child.type,
+            required: child.required,
+            extras: [headers[valueIndex]],
+            description: value,
+            content: ''
+          }));
+
+          children.splice(childIndex, -1, ...newColumns);
+        }
+      }
+
       // Find columns - [[header1, col1, ...], [header2, col2, ...], [header3, col3, ...], ...]
-      cells?.forEach(cell => {
+      children?.forEach(cell => {
         if (cell.tag === 'Column') {
           const foundColumn = columns.find(header => header?.[0] === cell.extras?.[0]);
-          foundColumn.push(
-            getContent(cell)
-          );
+
+          if (foundColumn) {
+            foundColumn.push(
+              getContent(cell)
+            );
+          }
         }
       });
 
       // Fill missing cells with "-"
-      headers.forEach((_, columnIndex) => {
+      longestColumns?.[0]?.forEach((_, columnIndex) => {
         columns.forEach((_, rowIndex) => {
           columns[rowIndex][columnIndex] = columns[rowIndex][columnIndex] || '-';
         });
@@ -221,10 +248,8 @@ const defaultTags: Tag[] = [
         });
       });
 
-      const longestColumns = columns.sort((a, b) => b.length - a.length);
-
       // Create table
-      longestColumns?.[0].forEach((_, columnIndex) => {
+      longestColumns?.[0]?.forEach((_, columnIndex) => {
         columns.forEach((_, rowIndex) => {
           const value = columns?.[rowIndex]?.[columnIndex] || '-';
           table += (value + ' | ');

@@ -92,13 +92,14 @@ my description
 more description if I want
 
 Created at
-2020-12-03 17:00:04
+2020-12-04 09:52:53
 
 ##my table name
 
 header1                           | header2                                                  | header3 | 
 --------------------------------- | -------------------------------------------------------- | ------- | 
 First row Content for first cell  | First row Content for second cell                        | Short   | 
+r1                                | r2                                                       | r3      | 
 Second row Content for first cell | Second row Content for second cell which is a bit longer | Short   | 
 Third row Content for first cell  | Third row Content for second cell which is a bit longer  | Short   | 
 
@@ -111,7 +112,7 @@ a
 
   John
 
-- **three** `object` *(default: cena)* - <span style="color: #f3454c">required</span>
+- **three** `object` *(default: cena)*  <span style="color: #f3454c">required</span>
 
   - **three_one** `string`
 

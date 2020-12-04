@@ -64,8 +64,10 @@ function moveChild (tagData: ParsedComment[], index: number, child: ParsedCommen
   // Find parent
   const findParent = (tagDataPartial: ParsedComment[], child: ParsedComment, parentName: string) => {
     return findLast(tagDataPartial, tag => {
+      const aliasMustMatch = !!tag.alias;
+
       // Match tag name and alias as well if exists
-      const isMatch = tag.tag === parent.tag && (child.alias ? tag.alias === child.alias : true);
+      const isMatch = tag.tag === parent.tag && (aliasMustMatch ? tag.alias === child?.alias : true);
 
       // Recursive
       if (tag.children) {
