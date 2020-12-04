@@ -173,7 +173,14 @@ const defaultTags: Tag[] = [
       }
     ],
     render: tagData => {
-      const getContent = (tag) => {
+      const tableName = getContent(tagData);
+      const headers = tagData.extras;
+      const children = tagData?.children;
+      const longestValues = headers.map(header => header.length);
+      const emptyValue = '-';
+      const table = [];
+
+      function getContent (tag) {
         const value = getName(tag);
 
         const valueWithNewLines = value.split(`\n`).join('<br>');
@@ -182,26 +189,48 @@ const defaultTags: Tag[] = [
           : valueWithNewLines;
       }
 
-      const toLength = (string, length) => {
-        const spacers = Array(length)?.fill(' ')?.join('');
+      function checkForLongestValue (colIndex, childTag) {
+        const value = getContent(childTag);
+
+        if (value?.length > longestValues?.[colIndex]) {
+          longestValues[colIndex] = value.length;
+        }
+      }
+
+      const toLength = (string, length, fill = ' ') => {
+        const spacers = Array(length)?.fill(fill)?.join('');
         return (string + spacers).slice(0, string.length < length ? length : string.length);
       };
 
-      // Table name
-      const tableName = getContent(tagData);
-      const headers = tagData.extras;
-      const columns = headers.map(header => [header]); // [[header1], [header2], [header3], ...]
-      const children = tagData?.children;
-      const longestColumns = columns.sort((a, b) => b.length - a.length);
-      let table = '';
+      // Create two dimensional table array table[row][col]
+      children.forEach(child => {
+        // If column, insert into table array
+        if (child.tag === 'Column') {
+          const columnIndex = headers.findIndex(header => header === child.extras?.[0]);
+          checkForLongestValue(columnIndex, child);
 
-      // Convert all rows to Columns - ordered by header type
-      for (let childIndex = children.length - 1; childIndex >= 0; childIndex--) {
-        const child = children[childIndex];
+          // Find first empty cell in correct column
+          let rowNrToPlace = table.findIndex(row => !row?.[columnIndex]);
 
+          // If didn't found, create new row
+          if (rowNrToPlace < 0) {
+            table.push(new Array(headers?.length || 0).fill(undefined));
+            rowNrToPlace = table.length - 1;
+          }
+
+          // Make sure second dimension exist for table row
+          if (!table[rowNrToPlace]) {
+            table[rowNrToPlace] = [];
+          }
+
+          // Place child in needed position in table
+          table[rowNrToPlace][columnIndex] = child;
+        }
+
+        // If Row, convert it into columns before inserting into table array
         if (child.tag === 'Row') {
           const values = child.extras;
-          const newColumns = values.map((value, valueIndex) => ({
+          const rowColumns = values.map((value, valueIndex) => ({
             tag: 'Column',
             alias: child.alias,
             type: child.type,
@@ -211,67 +240,46 @@ const defaultTags: Tag[] = [
             content: ''
           }));
 
-          children.splice(childIndex, -1, ...newColumns);
-        }
-      }
-
-      // Find columns - [[header1, col1, ...], [header2, col2, ...], [header3, col3, ...], ...]
-      children?.forEach(cell => {
-        if (cell.tag === 'Column') {
-          const foundColumn = columns.find(header => header?.[0] === cell.extras?.[0]);
-
-          if (foundColumn) {
-            foundColumn.push(
-              getContent(cell)
-            );
-          }
+          // Always push to new row
+          table.push(rowColumns);
         }
       });
 
-      // Fill missing cells with "-"
-      longestColumns?.[0]?.forEach((_, columnIndex) => {
-        columns.forEach((_, rowIndex) => {
-          columns[rowIndex][columnIndex] = columns[rowIndex][columnIndex] || '-';
-        });
-      });
+      // Create table head as text
+      const tableHead = headers
+        .map((header, headerIndex) => (
+          toLength(header, longestValues[headerIndex])
+        ))
+        .join(' | ')
 
-      // Make all cols same length
-      headers.forEach((_, columnIndex) => {
-        const longestInCol = [...columns[columnIndex]]
-          ?.sort((a, b) => b.length - a.length)
-          ?.[0];
-        const length = longestInCol?.length;
+      const tableHeadLine = headers
+        .map((_, headerIndex) => (
+          toLength('-', longestValues[headerIndex], '-')
+        ))
+        .join(' | ')
 
-        columns[columnIndex].forEach((_, cellIndex) => {
-          const value = columns[columnIndex][cellIndex];
-          columns[columnIndex][cellIndex] = toLength(value, length);
-        });
-      });
+      // Create table body as text
+      const tableBody = table
+        .map(row => (
+          row
+            .map((col, colIndex) => (
+              toLength(
+                getContent(col) || emptyValue,
+                longestValues[colIndex]
+              )
+            ))
+            .join(' | ')
+        ))
+        .join('\n');
 
-      // Create table
-      longestColumns?.[0]?.forEach((_, columnIndex) => {
-        columns.forEach((_, rowIndex) => {
-          const value = columns?.[rowIndex]?.[columnIndex] || '-';
-          table += (value + ' | ');
-        });
-
-        // Next row
-        table += '\n';
-
-        // Add horizontal separator under headers
-        if (columnIndex === 0) {
-          headers.forEach((_, headerIndex) => {
-            const colSeparator = Array(columns?.[headerIndex]?.[columnIndex].length).fill('-').join('');
-            table += colSeparator + ' | ';
-          });
-          table += '\n';
-        }
-      });
-
+      // Combine all
       return arrToDoc(
         tableName,
         '',
-        table,
+        tableHead,
+        tableHeadLine,
+        tableBody,
+        '',
       );
     }
   },

@@ -135,52 +135,65 @@
  */
 
 /**
- * @Column [header1] First row
- * Content for first cell
+ * @Column [header1] row 1
+ * col 1
  */
 
 /**
- * @Column [header2] First row
- * Content for second cell
+ * @Column [header2] row 1
+ * col 2 - this is the longest val for col 2
  */
 
 /**
- * @Column [header3]
- * Short
+ * @Row [a1, a2, a3]
  */
 
 /**
- * @Row [r1, r2, r3]
+ * @Column [header3] row 1
+ * col 3
  */
 
 /**
- * @Column [header1] Second row
- * Content for first cell
+ * @Column [header1] row 2
+ * col 1
  */
 
 /**
- * @Column [header2] Second row
- * Content for second cell which is a bit longer
+ * @Row [b1, b2, b3]
  */
 
 /**
- * @Column [header3]
- * Short
+ * @Row [c1, c2, c3]
  */
 
 /**
- * @Column [header1] Third row
- * Content for first cell
+ * @Column [header2] row 2
+ * col 2
  */
 
 /**
- * @Column [header2] Third row
- * Content for second cell which is a bit longer
+ * @Column [header3] row 2
+ * col 3 - longest val for col 3
  */
 
 /**
- * @Column [header3]
- * Short
+ * @Column [header1] row 3
+ * col 1 - this is the longest for col 1
+ */
+
+/**
+ * @Column [header2] row 3
+ * col 2
+ */
+
+/**
+ * @Column [header3] row 3
+ * col 3
+ */
+
+/**
+ * @Column [header2] row 4
+ * col 2
  */
 
 // =============

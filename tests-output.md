@@ -92,17 +92,19 @@ my description
 more description if I want
 
 Created at
-2020-12-04 09:52:53
+2020-12-04 14:04:36
 
 ##my table name
 
-header1                           | header2                                                  | header3 | 
---------------------------------- | -------------------------------------------------------- | ------- | 
-First row Content for first cell  | First row Content for second cell                        | Short   | 
-r1                                | r2                                                       | r3      | 
-Second row Content for first cell | Second row Content for second cell which is a bit longer | Short   | 
-Third row Content for first cell  | Third row Content for second cell which is a bit longer  | Short   | 
-
+header1                                     | header2                                         | header3                            
+------------------------------------------- | ----------------------------------------------- | -----------------------------------
+row 1 col 1                                 | row 1 col 2 - this is the longest val for col 2 | row 1 col 3                        
+a1                                          | a2                                              | a3                                 
+row 2 col 1                                 | row 2 col 2                                     | row 2 col 3 - longest val for col 3
+b1                                          | b2                                              | b3                                 
+c1                                          | c2                                              | c3                                 
+row 3 col 1 - this is the longest for col 1 | row 3 col 2                                     | row 3 col 3                        
+-                                           | row 4 col 2                                     | -                                  
 a
 - **one** `string` *(default: world)*
 
