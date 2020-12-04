@@ -1,4 +1,4 @@
-import { flattenArr } from './utils';
+import { amountOfLetters, flattenArr, nthIndexOf } from "./utils";
 import { DocsJSON, ExtractedTagData, FileContent, ParsedComment } from './types';
 
 export const getDocsJSON = (fileContents: FileContent[]): DocsJSON => {
@@ -202,8 +202,12 @@ function extractType (commentChunk: string) {
   let type = '';
   let required = false;
 
+  const amountOfStartSymbols = amountOfLetters('{', commentChunk);
+  const amountOfEndSymbols = amountOfLetters('}', commentChunk);
+  const endIndexOccurance = Math.min(amountOfStartSymbols, amountOfEndSymbols);
+
   const typeIndexStart = commentChunk.indexOf('{');
-  const typeIndexEnd = commentChunk.indexOf('}');
+  const typeIndexEnd = nthIndexOf(commentChunk, '}', endIndexOccurance);
 
   // Extract type
   if (typeIndexStart >= 0 && typeIndexEnd > typeIndexStart) {
@@ -226,8 +230,12 @@ function extractType (commentChunk: string) {
 function extractExtras (commentChunk: string) {
   let extras = [];
 
+  const amountOfStartSymbols = amountOfLetters('[', commentChunk);
+  const amountOfEndSymbols = amountOfLetters(']', commentChunk);
+  const endIndexOccurance = Math.min(amountOfStartSymbols, amountOfEndSymbols);
+
   const typeIndexStart = commentChunk.indexOf('[');
-  const typeIndexEnd = commentChunk.indexOf(']');
+  const typeIndexEnd = nthIndexOf(commentChunk, ']', endIndexOccurance);
 
   // Extract type
   if (typeIndexStart >= 0 && typeIndexEnd > typeIndexStart) {

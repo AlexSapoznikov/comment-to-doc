@@ -43,6 +43,11 @@ const combinations = {
     [' {!TestT!ype!}  ',                '!TestT!ype', true],
     [' {TestType!!}  ',                 'TestType!', true],
     [' {Te!stType!!  ! }  ',            'Te!stType!!', true],
+
+    ['{{}}',                            '{}', false],
+    ['{{ a: 1, b: 2}}',                 '{ a: 1, b: 2}', false],
+    ['{{{ tere}}',                      '{{ tere}', false],
+    ['{{a{{} {}}}',                     '{a{{} {}}', false],
   ],
   'extras': [
     ['',                                []],
@@ -59,6 +64,12 @@ const combinations = {
     ['[ extra  , data ,more ]',         ['extra', 'data', 'more']],
     ['[ extra  , data ,more ]',         ['extra', 'data', 'more']],
     ['  [ extra  , data ,more ]   ',    ['extra', 'data', 'more']],
+
+    ['[extra, data[], more ]',          ['extra', 'data[]', 'more']],
+    ['[extra, data[[]], more ]',        ['extra', 'data[[]]', 'more']],
+    ['[extra, data[][], more ]',        ['extra', 'data[][]', 'more']],
+    ['[extra, data[[][]], more ]',      ['extra', 'data[[][]]', 'more']],
+    ['[extra, data[[], more ]',         ['extra', 'data[[]', 'more']],
   ],
   'description': [
     '',

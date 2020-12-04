@@ -35,3 +35,32 @@ export const arrToDoc = (...array: string[]): string => (
     ?.filter(exists => exists || exists === '')
     ?.join('\n')
 );
+
+/**
+ * Gets amount of letters
+ * @param letter
+ * @param str
+ */
+export const amountOfLetters = (letter: string, str: string) => {
+  const regexp = new RegExp(`[^\\${letter}]`, 'g');
+  return str.replace(regexp, "").length;
+}
+
+/**
+ * Gets n'ts indexOf
+ * @param str
+ * @param pat
+ * @param n
+ */
+export const nthIndexOf = (str, pat, n) => {
+  const L = str.length;
+  let i = -1;
+
+  while (n-- && i++ < L){
+    i= str.indexOf(pat, i);
+    if (i < 0) {
+      break;
+    }
+  }
+  return i;
+}
