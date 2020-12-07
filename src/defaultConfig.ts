@@ -230,15 +230,20 @@ const defaultTags: Tag[] = [
         // If Row, convert it into columns before inserting into table array
         if (child.tag === 'Row') {
           const values = child.extras;
-          const rowColumns = values.map((value, valueIndex) => ({
-            tag: 'Column',
-            alias: child.alias,
-            type: child.type,
-            required: child.required,
-            extras: [headers[valueIndex]],
-            description: value,
-            content: ''
-          }));
+          const rowColumns = values.map((value, valueIndex) => {
+            const rowAsColumn = {
+              tag: 'Column',
+                alias: child.alias,
+              type: child.type,
+              required: child.required,
+              extras: [headers[valueIndex]],
+              description: value,
+              content: ''
+            };
+
+            checkForLongestValue(valueIndex, rowAsColumn);
+            return rowAsColumn;
+          });
 
           // Always push to new row
           table.push(rowColumns);

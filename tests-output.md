@@ -92,7 +92,7 @@ my description
 more description if I want
 
 Created at
-2020-12-04 14:04:36
+2020-12-07 08:04:51
 
 ##my table name
 
@@ -105,6 +105,7 @@ b1                                          | b2                                
 c1                                          | c2                                              | c3                                 
 row 3 col 1 - this is the longest for col 1 | row 3 col 2                                     | row 3 col 3                        
 -                                           | row 4 col 2                                     | -                                  
+
 a
 - **one** `string` *(default: world)*
 
@@ -141,3 +142,11 @@ bheauas xasd ae
 
 - **<unspecified key>** `object`
 
+
+## Props
+
+prop       | type  | description              
+---------- | ----- | -------------------------
+prop1      | type1 | a bit longer description 
+prop2222   | type2 | specific description here
+prop333333 | type3 | short one                

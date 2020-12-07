@@ -262,3 +262,10 @@ const a = {
    */
   five: 'nonamer'
 }
+
+/**
+ * @Table [prop, type, description] ## Props
+ * @Row [prop1, type1, a bit longer description]
+ * @Row [prop2222, type2, specific description here]
+ * @Row [prop333333, type3, short one]
+ */
