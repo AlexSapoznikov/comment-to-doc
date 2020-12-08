@@ -9,5 +9,5 @@ module.exports = {
     './tests-input.tsx',
   ],
   tags: defaultTags,
-  output: () => './a/cli-output.md'
+  output: () => './cli-output.md'
 };
