@@ -266,7 +266,7 @@ type Tag = {
    ```
    const config = {
      files: [
-       'file.ts',
+       'example.ts',
      ],
      tags: [tag]  
    };
@@ -277,21 +277,9 @@ type Tag = {
     ```
    generateDocs(config);
    ```
-
-----------
-   
-**This will be the output**:
-
-## Eminem
-- Name: Marshall Mathers
-- He is Singer
-- He makes good music
-
-Eminem said once:
-> The truth is you don't know what is going to happen tomorrow. Life is a crazy ride, and nothing is guaranteed.
-
-- created by MyTagName
-------------
+ 
+1. **This will be the output**:
+   <a href="https://github.com/AlexSapoznikov/comment-to-doc/blob/master/example.md">example.md</a>
 
 ## CLI
 ```
