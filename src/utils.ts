@@ -1,3 +1,7 @@
+import * as path from 'path';
+import { Config, DocJSON } from './types';
+import * as urlJoin from 'url-join';
+
 /**
  * Flatten array [[..., ...], ...] => [..., ..., ...]
  * @param arr
@@ -63,4 +67,13 @@ export const nthIndexOf = (str, pat, n) => {
     }
   }
   return i;
+}
+
+export const getOutput = (doc: DocJSON, config: Config): string => {
+  const docName = path.basename(doc.path, path.extname(doc.path));
+  const docPath = path.dirname(doc.path);
+  const docExt = config.outputExt;
+  return typeof config?.output === 'function'
+    ? urlJoin(process.cwd(), config?.output?.(docPath, docName))
+    : `${docPath}/${docName}.${docExt ?? 'md'}`;
 }

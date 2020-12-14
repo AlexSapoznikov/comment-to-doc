@@ -4,6 +4,7 @@ import { createDocs } from './createDoc';
 import { Config, Tag } from "./types";
 import findChildTags, { parseChildren } from "./getChildren";
 import applyOrdering from "./ordering";
+import group from "./group";
 
 /**
  * Export types
@@ -46,6 +47,9 @@ const generateDocs = async (config: Config) => {
 
   // Find children tags
   docsJSON = findChildTags(docsJSON, tags);
+
+  // Group by output
+  docsJSON = group(docsJSON, config);
 
   // Reorder
   docsJSON = applyOrdering(docsJSON, config);

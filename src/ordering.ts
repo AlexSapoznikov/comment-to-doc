@@ -19,7 +19,21 @@ export default function applyOrdering (docsJSON: DocsJSON, config: Config): Docs
 
       if (orderConfig) {
         doc.data = doc.data.sort((a, b) =>
-          orderConfig.indexOf(b?.tag?.toLowerCase()?.trim()) - orderConfig.indexOf(a?.tag?.toLowerCase()?.trim()))
+          orderConfig.indexOf(
+            [b?.tag, b?.alias]
+              ?.filter(exists => exists)
+              ?.join(':')
+              ?.toLowerCase()
+              ?.trim()
+          ) -
+          orderConfig.indexOf(
+            [a?.tag, a?.alias]
+              ?.filter(exists => exists)
+              ?.join(':')
+              ?.toLowerCase()
+              ?.trim()
+          )
+        )
       }
     });
   }

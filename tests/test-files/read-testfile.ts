@@ -9,6 +9,11 @@
  */
 
 /**
+ * @Tag:alias2 {type} [extra,data] description
+ * Content
+ */
+
+/**
  * @Tag2 {type2} [extra2,data2] description2
  * Content2
  */

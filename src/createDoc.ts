@@ -3,9 +3,9 @@ import { validate } from './checkRules';
 import { Config, DocJSON, DocsJSON, ParsedComment, Tag, TagRender } from './types';
 import { promisify } from 'util';
 import { writeFile } from 'fs';
-import * as urlJoin from 'url-join';
 import * as fs from 'fs';
 import * as chalk from 'chalk';
+import { getOutput } from "./utils";
 
 const writeFile$ = promisify(writeFile);
 
@@ -36,12 +36,7 @@ export const createDocs = async (docsJSON: DocsJSON, tags: Tag[], config: Config
 
 async function writeToFile (doc: DocJSON, tags: Tag[], config: Config) {
   const documentText: string[] = [];
-  const docName = path.basename(doc.path, path.extname(doc.path));
-  const docPath = path.dirname(doc.path);
-  const docExt = config.outputExt;
-  const outputPath = typeof config?.output === "function"
-    ? urlJoin(process.cwd(), config?.output?.(docPath, docName))
-    : `${docPath}/${docName}.${docExt ?? 'md'}`;
+  const outputPath = doc.output || getOutput(doc, config);
   const isStrictTags = config?.strict;
 
   validate(doc, config);
