@@ -234,8 +234,11 @@ const a = {
 
         /**
          * @Key {string} [three.three_two.three_two_one.three_two_one_one] right
-         * okasy so here is a bit bigger descrioption about the thing
-         * bheauas xasd ae
+         * This is a bit longer contant that the others. Also test some multiple lines here
+         * this is first line
+         * this is second line
+         *   this is thrid lind
+         * this is fourth line which again is a bit longer that the others so we can see what happens when content gets a bit longer
          */
         three_two_one_one: 'ok',
 

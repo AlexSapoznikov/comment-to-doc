@@ -329,9 +329,13 @@ const defaultTags: Tag[] = [
           ? nested?.slice(place)?.join('.')
           : keyName || '<unspecified key>';
 
-        const description = [objectKey?.description, objectKey?.content]
-          ?.filter(exists => exists)
-          ?.join(' ') || '';
+        const description = (
+          [objectKey?.description, objectKey?.content]
+            ?.filter(exists => exists)
+            ?.join(' ') || ''
+          )
+          ?.split('\n')
+          ?.join('<br>')
 
         const defaultValueText = (defaultValue ? ` *(default: ${defaultValue})*` : '');
         const typeText = objectKey?.type ? ` \`${objectKey?.type}\`` : '';
