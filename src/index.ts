@@ -3,6 +3,7 @@ import { getDocsJSON, parser } from "./getDocsJSON";
 import { createDocs } from './createDoc';
 import { Config, Tag } from "./types";
 import findChildTags, { parseChildren } from "./getChildren";
+import applyOrdering from "./ordering";
 
 /**
  * Export types
@@ -45,6 +46,9 @@ const generateDocs = async (config: Config) => {
 
   // Find children tags
   docsJSON = findChildTags(docsJSON, tags);
+
+  // Reorder
+  docsJSON = applyOrdering(docsJSON, config);
 
   // Generate docs
   docsJSON = await createDocs(docsJSON, tags, config);

@@ -9,7 +9,7 @@
 import generateDocs, { defaultTags, Config } from "../src";
 import * as fs from 'fs';
 
-const output = './tests/test-files/read-testfile.md';
+const output = './tests/test-files/specific-order-test.md';
 
 const config: Config = {
   files: [
@@ -17,18 +17,31 @@ const config: Config = {
   ],
   tags: defaultTags,
   output: () => output,
+  tagsOrder: ['Tag5', 'Tag3', 'Tag2'],
+  tagsOrderInFiles: {
+    'read-testfile.ts': [
+      'Tag4', 'Tag5', 'Tag2'
+    ]
+  }
 };
 
 beforeAll(() => {
-  if(fs.existsSync(output)) {
+  if (fs.existsSync(output)) {
     fs.unlinkSync(output);
   }
 });
 
-describe('Full flow test', () => {
-  it ('Documentation file should be created', async () => {
+describe('Ordering test', () => {
+  it ('Documentation file should be created and tags re-ordered', async () => {
     const result = await generateDocs(config);
     expect(result).toBeDefined()
+
+    result.forEach(doc => {
+      expect(doc.data[0].tag).toEqual('Tag4');
+      expect(doc.data[1].tag).toEqual('Tag5');
+      expect(doc.data[2].tag).toEqual('Tag5');
+      expect(doc.data[3].tag).toEqual('Tag2');
+    })
   });
 });
 

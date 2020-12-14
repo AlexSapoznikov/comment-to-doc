@@ -5,6 +5,8 @@ export type Config = {
   output?: (dir: string, fileName: string) => string,
   outputExt?: string,
   template?: Template,
+  tagsOrder?: string[],
+  tagsOrderInFiles?: { [fileName: string]: string[] }, // overrides tagsOrder
 
   /**
    * Will only generate document with tags that are defined in "tags" array.

@@ -9,6 +9,8 @@ import * as chalk from 'chalk';
 
 const writeFile$ = promisify(writeFile);
 
+const writtenOutputs = [];
+
 // Default JSON to doc render function
 const defaultRender: TagRender = (tagData) => {
   return [
@@ -24,11 +26,10 @@ export const createDocs = async (docsJSON: DocsJSON, tags: Tag[], config: Config
   // console.log('docsJSON', JSON.stringify(docsJSON, null, 2));
   // console.log('tags', tags);
 
-  const outputs = await Promise.all(
-    docsJSON.map(doc => writeToFile(doc, tags, config))
-  );
-
-  docsJSON.forEach((docJSON, i) => docJSON.output = outputs[i]);
+  // Serially so files in same directory would not conflicts with each other
+  for (const doc of docsJSON) {
+    doc.output = await writeToFile(doc, tags, config);
+  }
 
   return docsJSON;
 }
@@ -68,6 +69,9 @@ async function writeToFile (doc: DocJSON, tags: Tag[], config: Config) {
     }
   });
 
+  // New line at the end of file
+  documentText.push('');
+
   // Write to file
   ensureDirectoryExistence(outputPath);
   await writeFile$(
@@ -75,8 +79,10 @@ async function writeToFile (doc: DocJSON, tags: Tag[], config: Config) {
     documentText.join(`\n`),
     {
       encoding: 'utf8',
-      flag: 'w',
+      flag: writtenOutputs.includes(outputPath) ? 'a' : 'w',
     });
+
+  writtenOutputs.push(outputPath);
 
   return outputPath;
 }

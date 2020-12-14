@@ -43,18 +43,24 @@ generateDocs(config);
   output?: (dir: string, fileName: string) => string,
   template?: Template,
   strict?: boolean,
+  tagsOrder?: string[],
+  tagsOrderInFiles?: {
+    [fileNameOrPath: string]: string[]
+  }
 }
 ```
 
-key           | Mandatory   | type                                        | default                                                        | description
-------------- | ----------- | ------------------------------------------- | -------------------------------------------------------------- | ---------------------------------------------------------------------------------------
-files         | *Mandatory* | `string` or `string[]`                      | `undefined`                                                    | paths to files to read comments from (uses [glob](https://www.npmjs.com/package/glob)).
-excludeFiles  | *Optional*  | `string` or `string[]`                      | `undefined`                                                    | paths to files which should be excluded from `files` paths (uses [glob](https://www.npmjs.com/package/glob)).  
-tags          | *Optional*  | `Tag[]`                                     | `[]`                                                           | Tags configuration which define how each comment tag is rendered into documentation block. By default, if no tags are passed, only the tag with its content will be written to documentation file.
-outputExt     | *Optional*  | `string`                                    | `md`                                                           | Extension of output documentation file.
-output        | *Optional*  | `(dir: string, fileName: string) => string` | `${dir}/${fileName}.${outputExt}`                              | Output path for documentation. Read file directory and name can be used to generate one.
-template      | *Optional*  | `Template`                                  | `{ rules: {}, strictness: undefined, errorHandling: 'error' }` | Configuration for enforcing specific tags and their order.                              
-strict        | *Optional*  | `boolean`                                   | `false`                                                        | If true, will only generate document with tags that are defined in "tags" array. By default all tags are used.
+key              | Mandatory   | type                                        | default                                                        | description
+---------------- | ----------- | ------------------------------------------- | -------------------------------------------------------------- | ---------------------------------------------------------------------------------------
+files            | *Mandatory* | `string` or `string[]`                      | `undefined`                                                    | paths to files to read comments from (uses [glob](https://www.npmjs.com/package/glob)).
+excludeFiles     | *Optional*  | `string` or `string[]`                      | `undefined`                                                    | paths to files which should be excluded from `files` paths (uses [glob](https://www.npmjs.com/package/glob)).  
+tags             | *Optional*  | `Tag[]`                                     | `[]`                                                           | Tags configuration which define how each comment tag is rendered into documentation block. By default, if no tags are passed, only the tag with its content will be written to documentation file.
+outputExt        | *Optional*  | `string`                                    | `md`                                                           | Extension of output documentation file.
+output           | *Optional*  | `(dir: string, fileName: string) => string` | `${dir}/${fileName}.${outputExt}`                              | Output path for documentation. Read file directory and name can be used to generate one.
+template         | *Optional*  | `Template`                                  | `{ rules: {}, strictness: undefined, errorHandling: 'error' }` | Configuration for enforcing specific tags and their order.                              
+strict           | *Optional*  | `boolean`                                   | `false`                                                        | If true, will only generate document with tags that are defined in "tags" array. By default all tags are used.
+tagsOrder        | *Optional*  | `string[]`                                  | `undefined`                                                    | You can specify the order of tags that will be written in document file. Useful when multiple files are concatted into single documentation file. 
+tagsOrderInFiles | *Optional*  | `{ [fileNameOrPath: string]: string[] }`    | `undefined`                                                    | You can specify the order of tags that will be written in document file per file. Overrides general order specified in `tagsOrder` for given file.
 
 #### *config.tags*
 A simple tag is defined like this:

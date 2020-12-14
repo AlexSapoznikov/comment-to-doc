@@ -92,7 +92,7 @@ my description
 more description if I want
 
 Created at
-2020-12-07 08:04:51
+2020-12-14 13:08:13
 
 ##my table name
 
@@ -150,3 +150,6 @@ prop       | type  | description
 prop1      | type1 | a bit longer description 
 prop2222   | type2 | specific description here
 prop333333 | type3 | short one                
+
+# This should be added at the end of the doc file
+
