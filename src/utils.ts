@@ -51,6 +51,43 @@ export const amountOfLetters = (letter: string, str: string) => {
 }
 
 /**
+ * Parse text and get indexes of start and end brackets
+ * @param startBracket
+ * @param endBracket
+ * @param text
+ */
+export const getBracketIndexes = (startBracket: string, endBracket: string, text: string): { startIndex: number, endIndex: number } => {
+  let startIndex = -1;
+  let endIndex = -1;
+  let openCount = 0;
+
+  for (let i = 0; i < text.length; i++) {
+    if (text[i] === startBracket) {
+      if (startIndex < 0) {
+        startIndex = i;
+      }
+      openCount++;
+    }
+
+    if (text[i] === endBracket) {
+      if (openCount > 0) {
+        openCount--;
+      }
+
+      if (openCount === 0 && endIndex < 0) {
+        endIndex = i;
+        break;
+      }
+    }
+  }
+
+  return {
+    startIndex,
+    endIndex
+  }
+}
+
+/**
  * Gets n'ts indexOf
  * @param str
  * @param pat

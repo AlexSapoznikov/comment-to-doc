@@ -92,7 +92,7 @@ my description
 more description if I want
 
 Created at
-2020-12-14 15:48:20
+2020-12-15 10:55:21
 
 ##my table name
 
@@ -131,7 +131,11 @@ a
 
       - **three_two_one_one** `string`
 
-        right This is a bit longer contant that the others. Also test some multiple lines here<br>this is first line<br>this is second line<br>  this is thrid lind<br>this is fourth line which again is a bit longer that the others so we can see what happens when content gets a bit longer
+        right This is a bit longer contant that the others. Also test some multiple lines here
+this is first line
+this is second line
+  this is thrid lind
+this is fourth line which again is a bit longer that the others so we can see what happens when content gets a bit longer
 
       - **some.unexpected.nested.child** `object`
 

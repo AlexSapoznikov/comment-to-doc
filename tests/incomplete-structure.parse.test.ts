@@ -46,8 +46,8 @@ const combinations = {
 
     ['{{}}',                            '{}', false],
     ['{{ a: 1, b: 2}}',                 '{ a: 1, b: 2}', false],
-    ['{{{ tere}}',                      '{{ tere}', false],
-    ['{{a{{} {}}}',                     '{a{{} {}}', false],
+    ['{{a{{} {}}}}',                    '{a{{} {}}}', false],
+    ['{}',                              '', false],
   ],
   'extras': [
     ['',                                []],
@@ -69,7 +69,6 @@ const combinations = {
     ['[extra, data[[]], more ]',        ['extra', 'data[[]]', 'more']],
     ['[extra, data[][], more ]',        ['extra', 'data[][]', 'more']],
     ['[extra, data[[][]], more ]',      ['extra', 'data[[][]]', 'more']],
-    ['[extra, data[[], more ]',         ['extra', 'data[[]', 'more']],
   ],
   'description': [
     '',
@@ -83,42 +82,160 @@ const combinations = {
   ],
 }
 
-const testCases = [];
+const specialCases = [
+  // Unable to parse type
+  {
+    in: `
+      /**
+       * @Tag:alias {{{ tere}} [extra,data] description
+       * Content
+       */
+    `,
+    out: {
+      "tag": "Tag",
+      "alias": "alias",
+      "type": "",
+      "required": false,
+      "extras": [
+        "extra",
+        "data"
+      ],
+      "description": "description",
+      "content": "Content"
+    }
+  },
 
-combinations.tag.forEach(tag => {
-  combinations.alias.forEach(alias => {
-    combinations.type.forEach(type => {
-      combinations.extras.forEach(extras => {
-        combinations.description.forEach(description => {
-          combinations.content.forEach(content => {
-            testCases.push(
-              {
-                in: `
+  // Unable to parse type
+  {
+    in: `
+      /**
+       * @Tag:alias {}{} [extra,data] description
+       * Content
+       */
+    `,
+    out: {
+      "tag": "Tag",
+      "alias": "alias",
+      "type": "",
+      "required": false,
+      "extras": [
+        "extra",
+        "data"
+      ],
+      "description": "description",
+      "content": "Content"
+    }
+  },
+
+  // Unable to parse extras
+  {
+    in: `
+      /**
+       * @Tag:alias {test} [extra, data[[], more ] description
+       * Content
+       */
+    `,
+    out: {
+      "tag": "Tag",
+      "alias": "alias",
+      "type": "test",
+      "required": false,
+      "extras": [],
+      "description": "[extra, data[[], more ] description",
+      "content": "Content"
+    }
+  },
+
+  // Unable to parse extras
+  {
+    in: `
+      /**
+       * @Tag:alias {test} [][] description
+       * Content
+       */
+    `,
+    out: {
+      "tag": "Tag",
+      "alias": "alias",
+      "type": "test",
+      "required": false,
+      "extras": [
+        ''
+      ],
+      "description": "[] description",
+      "content": "Content"
+    }
+  },
+
+  // Unable to parse type and extras
+  {
+    in: `
+      /**
+       * @Tag {{{ tere}} [extra, data[[], more ] description
+       * Content
+       */
+    `,
+    out: {
+      "tag": "Tag",
+      "alias": "",
+      "type": "",
+      "required": false,
+      "extras": [],
+      "description": "{{{ tere}} [extra, data[[], more ] description",
+      "content": "Content"
+    }
+  },
+];
+
+function combinationsToTestCases (combinations) {
+  const tests = [];
+
+  combinations.tag.forEach(tag => {
+    combinations.alias.forEach(alias => {
+      combinations.type.forEach(type => {
+        combinations.extras.forEach(extras => {
+          combinations.description.forEach(description => {
+            combinations.content.forEach(content => {
+              tests.push(
+                {
+                  in: `
                   /**
                    * ${tag[0]}${alias[0]} ${type[0]} ${extras[0]} ${description}
                    * ${content}
                    */ 
                 `,
-                out: {
-                  tag: tag[1],
-                  alias: alias[1],
-                  type: type[1],
-                  required: type[2],
-                  extras: extras[1],
-                  description: description,
-                  content: content,
+                  out: {
+                    tag: tag[1],
+                    alias: alias[1],
+                    type: type[1],
+                    required: type[2],
+                    extras: extras[1],
+                    description: description,
+                    content: content,
+                  }
                 }
-              }
-            );
+              );
+            });
           });
         });
       });
     });
   });
-});
+
+  return [...tests];
+}
 
 describe('Incomplete structure parser tests', () => {
+  const testCases = combinationsToTestCases(combinations);
+
   testCases.forEach(testCase => {
+    it (testCase.in, () => {
+      const [parsed] = commentParser(testCase.in);
+      expect(parsed).toMatchObject(testCase.out);
+    });
+  });
+
+  specialCases.forEach(testCase => {
     it (testCase.in, () => {
       const [parsed] = commentParser(testCase.in);
       expect(parsed).toMatchObject(testCase.out);

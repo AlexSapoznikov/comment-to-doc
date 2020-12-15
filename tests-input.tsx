@@ -263,7 +263,7 @@ const a = {
   /**
    * @Key {object}
    */
-  five: 'nonamer'
+  five: 'nonamer',
 }
 
 /**

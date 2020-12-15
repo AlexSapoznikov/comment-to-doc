@@ -1,4 +1,4 @@
-import { amountOfLetters, flattenArr, nthIndexOf } from "./utils";
+import { flattenArr, getBracketIndexes } from "./utils";
 import { DocsJSON, ExtractedTagData, FileContent, ParsedComment } from './types';
 
 export const getDocsJSON = (fileContents: FileContent[]): DocsJSON => {
@@ -202,17 +202,12 @@ function extractType (commentChunk: string) {
   let type = '';
   let required = false;
 
-  const amountOfStartSymbols = amountOfLetters('{', commentChunk);
-  const amountOfEndSymbols = amountOfLetters('}', commentChunk);
-  const endIndexOccurance = Math.min(amountOfStartSymbols, amountOfEndSymbols);
-
-  const typeIndexStart = commentChunk.indexOf('{');
-  const typeIndexEnd = nthIndexOf(commentChunk, '}', endIndexOccurance);
+  const { startIndex, endIndex } = getBracketIndexes('{', '}', commentChunk);
 
   // Extract type
-  if (typeIndexStart >= 0 && typeIndexEnd > typeIndexStart) {
-    type = commentChunk?.slice(typeIndexStart + 1, typeIndexEnd)?.trim() || '';
-    commentChunk = commentChunk.slice(typeIndexEnd + 1);
+  if (startIndex >= 0 && endIndex > startIndex) {
+    type = commentChunk?.slice(startIndex + 1, endIndex)?.trim() || '';
+    commentChunk = commentChunk.slice(endIndex + 1);
   }
 
   if (type.endsWith('!')) {
@@ -230,18 +225,13 @@ function extractType (commentChunk: string) {
 function extractExtras (commentChunk: string) {
   let extras = [];
 
-  const amountOfStartSymbols = amountOfLetters('[', commentChunk);
-  const amountOfEndSymbols = amountOfLetters(']', commentChunk);
-  const endIndexOccurance = Math.min(amountOfStartSymbols, amountOfEndSymbols);
-
-  const typeIndexStart = commentChunk.indexOf('[');
-  const typeIndexEnd = nthIndexOf(commentChunk, ']', endIndexOccurance);
+  const { startIndex, endIndex } = getBracketIndexes('[', ']', commentChunk);
 
   // Extract type
-  if (typeIndexStart >= 0 && typeIndexEnd > typeIndexStart) {
-    const extrasStr = commentChunk?.slice(typeIndexStart + 1, typeIndexEnd)?.trim() || '';
+  if (startIndex >= 0 && endIndex > startIndex) {
+    const extrasStr = commentChunk?.slice(startIndex + 1, endIndex)?.trim() || '';
     extras = extrasStr.split(',')?.map(e => e.trim());
-    commentChunk = commentChunk.slice(typeIndexEnd + 1);
+    commentChunk = commentChunk.slice(endIndex + 1);
   }
 
   return {
